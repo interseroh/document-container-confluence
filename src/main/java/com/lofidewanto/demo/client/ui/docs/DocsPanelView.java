@@ -30,20 +30,15 @@ import org.fusesource.restygwt.client.MethodCallback;
 import org.gwtbootstrap3.client.ui.Button;
 import org.gwtbootstrap3.client.ui.Label;
 import org.gwtbootstrap3.client.ui.Pagination;
-import org.gwtbootstrap3.client.ui.SuggestBox;
 import org.gwtbootstrap3.client.ui.TabListItem;
 import org.gwtbootstrap3.client.ui.gwt.DataGrid;
 import org.gwtbootstrap3.extras.bootbox.client.Bootbox;
-import org.gwtbootstrap3.extras.datetimepicker.client.ui.DateTimePicker;
-import org.gwtbootstrap3.extras.select.client.ui.MultipleSelect;
-import org.gwtbootstrap3.extras.select.client.ui.Option;
 
 import com.google.gwt.cell.client.CheckboxCell;
 import com.google.gwt.cell.client.TextCell;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.shared.EventBus;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
@@ -60,7 +55,6 @@ import com.lofidewanto.demo.client.common.LoadingMessagePopupPanel;
 import com.lofidewanto.demo.client.common.Startable;
 import com.lofidewanto.demo.client.domain.ConfluenceContentClient;
 import com.lofidewanto.demo.client.ui.event.FilterEvent;
-import com.lofidewanto.demo.client.ui.event.SearchEvent;
 import com.lofidewanto.demo.shared.PersonDto;
 
 @Singleton
@@ -93,18 +87,6 @@ public class DocsPanelView extends Composite implements Startable {
 	Button searchButton;
 
 	@UiField
-	Button filterButton;
-
-	@UiField
-	SuggestBox nameSuggestBox;
-
-	@UiField
-	DateTimePicker fromDateTimePicker;
-
-	@UiField
-	DateTimePicker untilDateTimePicker;
-
-	@UiField
 	TabListItem listTab;
 
 	@UiField
@@ -121,9 +103,6 @@ public class DocsPanelView extends Composite implements Startable {
 
 	@UiField
 	Pagination dataGridPagination2;
-
-	@UiField
-	MultipleSelect foodMultipleSelect;
 
 	@Inject
 	public DocsPanelView(EventBus eventbus, ErrorFormatter errorFormatter,
@@ -142,17 +121,6 @@ public class DocsPanelView extends Composite implements Startable {
 
 	@Override
 	public void init() {
-		// Standard event handling
-		filterButton.addClickHandler(new ClickHandler() {
-			@Override
-			public void onClick(ClickEvent clickEvent) {
-				logger.info("Click Detected by Simple Click Event");
-				logger.info("Button Filter is clicked!!!" + clickEvent.getNativeEvent().getString());
-				eventBus.fireEvent(new SearchEvent());
-
-				filterPerson();
-			}
-		});
 		logger.info("DocsPanelView created...");
 
 		initTableColumns(dataGrid1);
@@ -185,19 +153,12 @@ public class DocsPanelView extends Composite implements Startable {
 
 		// Both buttons disable
 		refreshButton.setEnabled(false);
-		filterButton.setEnabled(false);
 
-		List<Option> items = foodMultipleSelect.getSelectedItems();
-
-		if (items.size() != 0 && items.get(0).getValue().equalsIgnoreCase("Mustard")) {
-			logger.info("We have mustard...");
-			filterButton.setText("Mustard");
-		}
 
 		boolean result = runTimerRefreshButton();
 
 		if (result == false) {
-			filterButton.setEnabled(false);
+
 		}
 
 		logger.info("Result runTimerRefreshButton: " + result);
@@ -217,9 +178,7 @@ public class DocsPanelView extends Composite implements Startable {
 
 	void runTimerRefreshButtonExecutor() {
 		refreshButton.setEnabled(true);
-		filterButton.setEnabled(true);
 		logger.info("Enable the button again...");
-		filterButton.setText("Filter");
 	}
 
 	private void initTableColumns(DataGrid<PersonDto> dataGrid) {
@@ -297,10 +256,6 @@ public class DocsPanelView extends Composite implements Startable {
 		};
 
 		logger.info("Calling filterPerson Service...");
-
-		confluenceContentClient
-				.filterPerson(nameSuggestBox.getValue(), fromDateTimePicker.getValue(),
-				untilDateTimePicker.getValue(), filterCallBack);
 	}
 
 	private void getPersons() {

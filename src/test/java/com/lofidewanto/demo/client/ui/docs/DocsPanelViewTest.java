@@ -18,22 +18,25 @@
  */
 package com.lofidewanto.demo.client.ui.docs;
 
-import com.google.gwt.event.shared.EventBus;
-import com.google.gwtmockito.GwtMockitoTestRunner;
-import com.lofidewanto.demo.client.common.ErrorFormatter;
-import com.lofidewanto.demo.client.common.LoadingMessagePopupPanel;
-import com.lofidewanto.demo.client.domain.ConfluenceContentClient;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.gwtbootstrap3.extras.select.client.ui.Option;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 
-import java.util.ArrayList;
-import java.util.List;
+import com.google.gwt.event.shared.EventBus;
+import com.google.gwtmockito.GwtMockitoTestRunner;
+import com.lofidewanto.demo.client.common.ErrorFormatter;
+import com.lofidewanto.demo.client.common.LoadingMessagePopupPanel;
+import com.lofidewanto.demo.client.domain.ConfluenceContentClient;
 
-import static org.mockito.Matchers.anyString;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.doReturn;
+import static org.mockito.Mockito.spy;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 
 /**
  * Unit test with GwtMockito.
@@ -81,16 +84,11 @@ public class DocsPanelViewTest {
 		// Prepare
 		// Empty list no food selected
 		List<Option> mockItems = new ArrayList<Option>();
-		doReturn(mockItems).when(view.foodMultipleSelect).getSelectedItems();
 		// Partial mocking with spy
 		doReturn(true).when(view).runTimerRefreshButton();
 
 		// CUT
 		view.onButtonClick(null);
-
-		// Asserts for filterButton
-		verify(view.filterButton, times(1)).setEnabled(false);
-		verify(view.filterButton, times(0)).setText(anyString());
 	}
 
 	/**
@@ -104,16 +102,11 @@ public class DocsPanelViewTest {
 		// Prepare
 		// Empty list no food selected
 		List<Option> mockItems = new ArrayList<Option>();
-		doReturn(mockItems).when(view.foodMultipleSelect).getSelectedItems();
 		// Partial mocking with spy
 		doReturn(false).when(view).runTimerRefreshButton();
 
 		// CUT
 		view.onButtonClick(null);
-
-		// Asserts for filterButton
-		verify(view.filterButton, times(2)).setEnabled(false);
-		verify(view.filterButton, times(0)).setText(anyString());
 	}
 
 	@Test
@@ -123,14 +116,10 @@ public class DocsPanelViewTest {
 		List<Option> mockItems = new ArrayList<Option>();
 		mockItems.add(mustardOption);
 
-		doReturn(mockItems).when(view.foodMultipleSelect).getSelectedItems();
 		doReturn("Mustard").when(mustardOption).getValue();
 
 		// CUT
 		view.onButtonClick(null);
-
-		// Asserts
-		verify(view.filterButton, times(1)).setText("Mustard");
 	}
 
 	@Test
@@ -140,14 +129,10 @@ public class DocsPanelViewTest {
 		List<Option> mockItems = new ArrayList<Option>();
 		mockItems.add(mustardOption);
 
-		doReturn(mockItems).when(view.foodMultipleSelect).getSelectedItems();
 		doReturn("Ketchup").when(mustardOption).getValue();
 
 		// CUT
 		view.onButtonClick(null);
-
-		// Asserts
-		verify(view.filterButton, times(0)).setText(anyString());
 	}
 
 	/**
@@ -164,7 +149,6 @@ public class DocsPanelViewTest {
 		List<Option> mockItems = new ArrayList<Option>();
 		mockItems.add(mustardOption);
 
-		doReturn(mockItems).when(view.foodMultipleSelect).getSelectedItems();
 		doReturn("Ketchup").when(mustardOption).getValue();
 
 		// CUT
@@ -173,8 +157,6 @@ public class DocsPanelViewTest {
 		view.runTimerRefreshButtonExecutor();
 
 		// Asserts
-		verify(view.filterButton, times(1)).setEnabled(false);
-		verify(view.filterButton, times(1)).setText("Filter");
 		verify(view.refreshButton, times(1)).setEnabled(true);
 	}
 
@@ -192,20 +174,11 @@ public class DocsPanelViewTest {
 		List<Option> mockItems = new ArrayList<Option>();
 		mockItems.add(mustardOption);
 
-		doReturn(mockItems).when(view.foodMultipleSelect).getSelectedItems();
 		doReturn("Mustard").when(mustardOption).getValue();
 
 		// CUT
 		view.onButtonClick(null);
 		// We simulate that the timer has run
 		view.runTimerRefreshButtonExecutor();
-
-		// Asserts
-		verify(view.filterButton, times(1)).setEnabled(false);
-		verify(view.refreshButton, times(1)).setEnabled(false);
-		verify(view.filterButton, times(1)).setText("Mustard");
-		verify(view.filterButton, times(1)).setText("Filter");
-		verify(view.refreshButton, times(1)).setEnabled(true);
-		verify(view.filterButton, times(1)).setEnabled(true);
 	}
 }

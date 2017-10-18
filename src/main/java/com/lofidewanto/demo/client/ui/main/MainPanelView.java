@@ -18,6 +18,14 @@
  */
 package com.lofidewanto.demo.client.ui.main;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.logging.Logger;
+
+import javax.inject.Singleton;
+
+import org.gwtbootstrap3.client.ui.Column;
+
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.shared.EventBus;
 import com.google.gwt.uibinder.client.UiBinder;
@@ -31,19 +39,8 @@ import com.lofidewanto.demo.client.common.ErrorFormatter;
 import com.lofidewanto.demo.client.common.LoadingMessagePopupPanel;
 import com.lofidewanto.demo.client.common.Startable;
 import com.lofidewanto.demo.client.common.WidgetName;
-import com.lofidewanto.demo.client.ui.event.ChangeViewEvent;
 import com.lofidewanto.demo.client.ui.docs.DocsPanelView;
-import org.gwtbootstrap3.client.ui.AnchorButton;
-import org.gwtbootstrap3.client.ui.Column;
-import org.gwtbootstrap3.client.ui.Image;
-import org.gwtbootstrap3.client.ui.Popover;
-import org.gwtbootstrap3.client.ui.constants.IconSize;
-import org.gwtbootstrap3.client.ui.constants.IconType;
-
-import javax.inject.Singleton;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.logging.Logger;
+import com.lofidewanto.demo.client.ui.event.ChangeViewEvent;
 
 @Singleton
 public class MainPanelView extends Composite {
@@ -74,21 +71,6 @@ public class MainPanelView extends Composite {
 	@UiField
 	Column contentColumn;
 
-	@UiField
-	AnchorButton webAppsButton;
-
-	@UiField
-	AnchorButton notificationButton;
-
-	@UiField
-	AnchorButton wrenchButton;
-	
-	@UiField
-	Popover webAppsPopOver;
-	
-	@UiField
-	Image mainImage;
-
 	@Inject
 	public MainPanelView(EventBus eventBus, ErrorFormatter errorFormatter,
 			LoadingMessagePopupPanel loadingMessagePopupPanel) {
@@ -97,110 +79,7 @@ public class MainPanelView extends Composite {
 		this.errorFormatter = errorFormatter;
 		this.loadingMessagePopupPanel = loadingMessagePopupPanel;
 
-		// webAppsButton.getElement().setClassName("glyphicon");
-		webAppsButton.setIcon(IconType.TH);
-		webAppsButton.setIconSize(IconSize.LARGE);
-		
-		notificationButton.setIcon(IconType.BELL);
-		notificationButton.setIconSize(IconSize.LARGE);
-		
-		wrenchButton.setIcon(IconType.WRENCH);
-		wrenchButton.setIconSize(IconSize.LARGE);
-
-		createPopOver();
-
 		logger.info("MainPanelView created...");
-	}
-
-	void createPopOver() {
-		webAppsPopOver.setContent("<div class='webapps-popover-outer-div' style='max-height: 414px; height: 496px;' aria-label='Interseroh-Apps' aria-hidden='false' role='region'>"
-				+ "<ul class='webapps-popover-unnumbered-list' aria-dropeffect='move'>"
-				+ "<li class='webapps-popover-list-item' aria-grapped='false'>"
-				+ "<a class='webapps-popover-a webapps-popover-a-1-1' target='_blank' href='http://www.google.de'>"
-				+ "<div class='webapps-popover-list-item-div-1'></div>"
-				+ "<div class='webapps-popover-list-item-div-2'></div>"
-				+ "<div class='webapps-popover-list-item-div-3'></div>"
-				+ "<div class='webapps-popover-list-item-div-4'></div>"
-				+ "<span class='webapps-popover-list-item-image'>"
-				+ "<img src='images/dienstleistung-logo.png' width='56px' height='56px'/>"
-				+ "</span>"
-				+ "<span class='webapps-popover-list-item-text'>Dienstleistung</span>"
-				+ "</a>"
-				+ "</li>"
-				+ "<li class='webapps-popover-list-item' aria-grapped='false'>"
-				+ "<a class='webapps-popover-a webapps-popover-a-1-2' target='_blank' href='http://www.yahoo.de'>"
-				+ "<div class='webapps-popover-list-item-div-1'></div>"
-				+ "<div class='webapps-popover-list-item-div-2'></div>"
-				+ "<div class='webapps-popover-list-item-div-3'></div>"
-				+ "<div class='webapps-popover-list-item-div-4'></div>"
-				+ "<span class='webapps-popover-list-item-image'>"
-				+ "<img src='images/mengenmeldung-logo.png' width='56px' height='56px'/>"
-				+ "</span>"
-				+ "<span class='webapps-popover-list-item-text'>Mengen</span>"
-				+ "</a>"
-				+ "</li>"
-				+ "<li class='webapps-popover-list-item' aria-grapped='false'>"
-				+ "<a class='webapps-popover-a webapps-popover-a-1-3' target='_blank' href='http://www.google.de'>"
-				+ "<div class='webapps-popover-list-item-div-1'></div>"
-				+ "<div class='webapps-popover-list-item-div-2'></div>"
-				+ "<div class='webapps-popover-list-item-div-3'></div>"
-				+ "<div class='webapps-popover-list-item-div-4'></div>"
-				+ "<span class='webapps-popover-list-item-image'>"
-				+ "<img src='images/isupplier-logo.png' width='56px' height='40px'/>"
-				+ "</span>"
-				+ "<span class='webapps-popover-list-item-text'>iSupplier</span>"
-				+ "</a>"
-				+ "</li>"
-				+ "<li class='webapps-popover-list-item' aria-grapped='false'>"
-				+ "<a class='webapps-popover-a webapps-popover-a-2-1' target='_blank' href='http://www.yahoo.de'>"
-				+ "<div class='webapps-popover-list-item-div-1'></div>"
-				+ "<div class='webapps-popover-list-item-div-2'></div>"
-				+ "<div class='webapps-popover-list-item-div-3'></div>"
-				+ "<div class='webapps-popover-list-item-div-4'></div>"
-				+ "<span class='webapps-popover-list-item-image'>"
-				+ "<img src='images/entsorger-logo.png' width='56px' height='56px'/>"
-				+ "</span>"
-				+ "<span class='webapps-popover-list-item-text'>Entsorger</span>"
-				+ "</a>"
-				+ "</li>"
-				+ "<li class='webapps-popover-list-item' aria-grapped='false'>"
-				+ "<a class='webapps-popover-a webapps-popover-a-2-2' target='_blank' href='http://www.yahoo.de'>"
-				+ "<div class='webapps-popover-list-item-div-1'></div>"
-				+ "<div class='webapps-popover-list-item-div-2'></div>"
-				+ "<div class='webapps-popover-list-item-div-3'></div>"
-				+ "<div class='webapps-popover-list-item-div-4'></div>"
-				+ "<span class='webapps-popover-list-item-image'>"
-				+ "<img src='images/ecoservice24-logo.png' width='56px' height='56px'/>"
-				+ "</span>"
-				+ "<span class='webapps-popover-list-item-text'>ecoservice24</span>"
-				+ "</a>"
-				+ "</li>"
-				+ "<li class='webapps-popover-list-item' aria-grapped='false'>"
-				+ "<a class='webapps-popover-a webapps-popover-a-2-3' target='_blank' href='http://www.yahoo.de'>"
-				+ "<div class='webapps-popover-list-item-div-1'></div>"
-				+ "<div class='webapps-popover-list-item-div-2'></div>"
-				+ "<div class='webapps-popover-list-item-div-3'></div>"
-				+ "<div class='webapps-popover-list-item-div-4'></div>"
-				+ "<span class='webapps-popover-list-item-image'>"
-				+ "<img src='images/auftrags-logo.png' width='56px' height='56px'/>"
-				+ "</span>"
-				+ "<span class='webapps-popover-list-item-text'>Auftrag</span>"
-				+ "</a>"
-				+ "</li>"
-				+ "<li class='webapps-popover-list-item' aria-grapped='false'>"
-				+ "<a class='webapps-popover-a webapps-popover-a-3-1' target='_blank' href='http://www.yahoo.de'>"
-				+ "<div class='webapps-popover-list-item-div-1'></div>"
-				+ "<div class='webapps-popover-list-item-div-2'></div>"
-				+ "<div class='webapps-popover-list-item-div-3'></div>"
-				+ "<div class='webapps-popover-list-item-div-4'></div>"
-				+ "<span class='webapps-popover-list-item-image'>"
-				+ "<img src='images/sammeldrache-logo.jpeg' width='56px' height='56px'/>"
-				+ "</span>"
-				+ "<span class='webapps-popover-list-item-text'>Drache</span>"
-				+ "</a>"
-				+ "</li>"
-				+ "</ul>"
-				+ "</div>");
 	}
 
 	public void addWidget(WidgetName name, Widget widget) {
