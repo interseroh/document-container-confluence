@@ -26,4 +26,6 @@ public interface DemoGwtServiceEndpoint {
 
 	static final String ATTACHMENT_LIST = "/v1/attachments";
 
+	static final String CONFLUENCE_ATTACHMENT_LIST = "/rest/api/content/{pageId}/child/attachment";
+
 }
