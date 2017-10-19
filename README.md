@@ -3,7 +3,6 @@
 ## Build Status
 
 [![Build Status](https://travis-ci.org/interseroh/document-container-confluence.svg?branch=master)](https://travis-ci.org/interseroh/document-container-confluence)
-[![Heroku](https://heroku-badge.herokuapp.com/?app=document-container-confluence&root=demogwt/demogwt.html)](https://document-container-confluence.herokuapp.com/demogwt/demogwt.html)
 
 ## Confluence REST API
 
