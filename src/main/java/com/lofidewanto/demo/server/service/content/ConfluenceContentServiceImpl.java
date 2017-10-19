@@ -34,6 +34,8 @@ public class ConfluenceContentServiceImpl implements ConfluenceContentService {
 
 	@Override
 	public List<Attachment> getAllAttachments() {
+		// Connect to Confluence
+
 		return null;
 	}
 
