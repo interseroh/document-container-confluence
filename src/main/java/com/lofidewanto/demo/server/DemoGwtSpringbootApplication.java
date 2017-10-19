@@ -22,6 +22,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.servlet.ServletRegistrationBean;
 import org.springframework.context.annotation.Bean;
+import org.springframework.web.client.RestTemplate;
 
 import com.google.gwt.logging.server.RemoteLoggingServiceImpl;
 import com.lofidewanto.demo.shared.DemoGwtServiceEndpoint;
@@ -37,5 +38,10 @@ public class DemoGwtSpringbootApplication {
 	public ServletRegistrationBean servletRegistrationBean() {
 		return new ServletRegistrationBean(new RemoteLoggingServiceImpl(),
 				DemoGwtServiceEndpoint.GWT_REMOTE_LOGGING + "/*");
+	}
+
+	@Bean
+	public RestTemplate restTemplateBean() {
+		return new RestTemplate();
 	}
 }
