@@ -23,10 +23,12 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import com.lofidewanto.demo.server.domain.Attachment;
+import com.lofidewanto.demo.shared.DemoGwtServiceEndpoint;
 
 @Service
 public class ConfluenceContentServiceImpl implements ConfluenceContentService {
@@ -34,14 +36,27 @@ public class ConfluenceContentServiceImpl implements ConfluenceContentService {
 	private static final Logger logger = LoggerFactory
 			.getLogger(ConfluenceContentServiceImpl.class);
 
+	private static final String ATTACHMENT_PAGE_ID_PARAM = "{pageId}";
+
 	@Autowired
 	private RestTemplate restTemplate;
+
+	@Value("${confluence.url}")
+	private String confluenceUrl;
+
+	@Value("${confluence.pageid}")
+	private String confluencePageId;
 
 	@Override
 	public List<Attachment> getAllAttachments() {
 		// Connect to Confluence
+		// TODO Handle error
+		String confluenceAttachmentList = DemoGwtServiceEndpoint.CONFLUENCE_ATTACHMENT_LIST;
 
-		return null;
+		List<Attachment> attachments = restTemplate
+				.getForObject(confluenceUrl + confluenceAttachmentList, List.class);
+
+		return attachments;
 	}
 
 	@Override
