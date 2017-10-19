@@ -51,6 +51,8 @@ public class ConfluenceContentServiceImpl implements ConfluenceContentService {
 	public List<Attachment> getAllAttachments() {
 		// Connect to Confluence
 		// TODO Handle error
+
+		// TODO Replace {pageId} with confluencePageId
 		String confluenceAttachmentList = DemoGwtServiceEndpoint.CONFLUENCE_ATTACHMENT_LIST;
 
 		List<Attachment> attachments = restTemplate
