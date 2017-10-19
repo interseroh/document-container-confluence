@@ -18,12 +18,12 @@
  */
 package com.lofidewanto.demo.mock;
 
+import java.util.logging.Logger;
+
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
 import com.lofidewanto.demo.client.DemoGwtWebApp;
 import com.lofidewanto.demo.client.common.ServicePreparator;
-
-import java.util.logging.Logger;
 
 public class DemoGwtMockEntryPoint implements EntryPoint {
 

@@ -20,14 +20,10 @@ package com.lofidewanto.demo.shared;
 
 public interface DemoGwtServiceEndpoint {
 
-	public static final String GWT_REMOTE_LOGGING = "/demogwt/remote_logging";
+	static final String GWT_REMOTE_LOGGING = "/demogwt/remote_logging";
 
-	public static final String CONTEXT = "/demogwt";
+	static final String CONTEXT = "/demogwt";
 
-	public static final String PERSON_LIST = "/v1/persons";
-
-	public static final String PERSON_FILTER = "/v1/personsFilter";
-
-	public static final String LOGIN_USER = "/v1/loginuser";
+	static final String ATTACHMENT_LIST = "/v1/attachments";
 
 }

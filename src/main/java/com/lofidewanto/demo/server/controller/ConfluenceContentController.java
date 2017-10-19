@@ -29,8 +29,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.lofidewanto.demo.shared.AttachmentDto;
 import com.lofidewanto.demo.shared.DemoGwtServiceEndpoint;
-import com.lofidewanto.demo.shared.PersonDto;
 
 @Controller
 @CrossOrigin
@@ -46,9 +46,9 @@ public class ConfluenceContentController {
      * @param length
      * @return
      */
-    @RequestMapping(value = DemoGwtServiceEndpoint.PERSON_LIST, method = RequestMethod.GET)
+    @RequestMapping(value = DemoGwtServiceEndpoint.ATTACHMENT_LIST, method = RequestMethod.GET)
     public @ResponseBody
-    List<PersonDto> getPersons(
+    List<AttachmentDto> getPersons(
             @RequestParam("start") Integer start,
             @RequestParam("length") Integer length) {
 

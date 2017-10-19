@@ -18,9 +18,9 @@
  */
 package com.lofidewanto.demo.mock.common;
 
-import com.lofidewanto.demo.client.common.ServicePreparator;
-
 import java.util.logging.Logger;
+
+import com.lofidewanto.demo.client.common.ServicePreparator;
 
 public class MockServicePreparator implements ServicePreparator {
 

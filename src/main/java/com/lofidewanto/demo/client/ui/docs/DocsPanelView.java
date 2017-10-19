@@ -34,7 +34,6 @@ import org.gwtbootstrap3.client.ui.TabListItem;
 import org.gwtbootstrap3.client.ui.gwt.DataGrid;
 import org.gwtbootstrap3.extras.bootbox.client.Bootbox;
 
-import com.google.gwt.cell.client.CheckboxCell;
 import com.google.gwt.cell.client.TextCell;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Style;
@@ -55,7 +54,7 @@ import com.lofidewanto.demo.client.common.LoadingMessagePopupPanel;
 import com.lofidewanto.demo.client.common.Startable;
 import com.lofidewanto.demo.client.domain.ConfluenceContentClient;
 import com.lofidewanto.demo.client.ui.event.FilterEvent;
-import com.lofidewanto.demo.shared.PersonDto;
+import com.lofidewanto.demo.shared.AttachmentDto;
 
 @Singleton
 public class DocsPanelView extends Composite implements Startable {
@@ -76,15 +75,10 @@ public class DocsPanelView extends Composite implements Startable {
 
 	private final ConfluenceContentClient confluenceContentClient;
 
-	private ListDataProvider<PersonDto> dataProviderList;
-
-	private ListDataProvider<PersonDto> dataProviderFilter;
+	private ListDataProvider<AttachmentDto> dataProviderList;
 
 	@UiField
 	Button refreshButton;
-
-	@UiField
-	Button searchButton;
 
 	@UiField
 	TabListItem listTab;
@@ -93,16 +87,10 @@ public class DocsPanelView extends Composite implements Startable {
 	TabListItem searchTab;
 
 	@UiField
-	DataGrid<PersonDto> dataGrid1;
-
-	@UiField
-	DataGrid<PersonDto> dataGrid2;
+	DataGrid<AttachmentDto> dataGrid1;
 
 	@UiField
 	Pagination dataGridPagination1;
-
-	@UiField
-	Pagination dataGridPagination2;
 
 	@Inject
 	public DocsPanelView(EventBus eventbus, ErrorFormatter errorFormatter,
@@ -124,26 +112,9 @@ public class DocsPanelView extends Composite implements Startable {
 		logger.info("DocsPanelView created...");
 
 		initTableColumns(dataGrid1);
-		initTableColumns(dataGrid2);
 		initListDataProvider(dataGrid1);
-		initFilterDataProvider(dataGrid2);
 
 		getPersons();
-
-		// Event handling with Lambda
-		searchButton.addClickHandler(clickHandler -> searchButtonClick("Click Detected by Lambda Listener"));
-	}
-
-	private void searchButtonClick(String message) {
-		logger.info(message);
-		searchButton.state().loading();
-
-		new Timer() {
-			@Override
-			public void run() {
-				searchButton.state().reset();
-			}
-		}.schedule(5000);
 	}
 
 	@UiHandler("refreshButton")
@@ -181,47 +152,33 @@ public class DocsPanelView extends Composite implements Startable {
 		logger.info("Enable the button again...");
 	}
 
-	private void initTableColumns(DataGrid<PersonDto> dataGrid) {
+	private void initTableColumns(DataGrid<AttachmentDto> dataGrid) {
 		dataGrid.setWidth("100%");
 		dataGrid.setHeight("300px");
 		dataGrid.setAutoHeaderRefreshDisabled(true);
 		// Nick name.
-		Column<PersonDto, String> nicknameColumn = new Column<PersonDto, String>(new TextCell()) {
+		Column<AttachmentDto, String> nicknameColumn = new Column<AttachmentDto, String>(new TextCell()) {
 			@Override
-			public String getValue(PersonDto object) {
-				return object.getNickname();
+			public String getValue(AttachmentDto object) {
+				return object.getTitle();
 			}
 		};
 		dataGrid.addColumn(nicknameColumn, "Nickname");
 		dataGrid.setColumnWidth(nicknameColumn, 40, Style.Unit.PCT);
 
 		// Nick name.
-		Column<PersonDto, String> nameColumn = new Column<PersonDto, String>(new TextCell()) {
+		Column<AttachmentDto, String> nameColumn = new Column<AttachmentDto, String>(new TextCell()) {
 			@Override
-			public String getValue(PersonDto object) {
-				return object.getName();
+			public String getValue(AttachmentDto object) {
+				return object.getTitle();
 			}
 		};
 		dataGrid.addColumn(nameColumn, "Name");
 		dataGrid.setColumnWidth(nameColumn, 40, Style.Unit.PCT);
-
-		// Retired
-		Column<PersonDto, Boolean> isRetiredColumn = new Column<PersonDto, Boolean>(new CheckboxCell(true, false)) {
-			@Override
-			public Boolean getValue(PersonDto object) {
-				if (object.isInRetirement() == null) {
-					return false;
-				} else {
-					return object.isInRetirement();
-				}
-			}
-		};
-		dataGrid.addColumn(isRetiredColumn, "Retired");
-		dataGrid.setColumnWidth(isRetiredColumn, 20, Style.Unit.PCT);
 	}
 
-	private void initListDataProvider(DataGrid<PersonDto> dataGrid) {
-		dataProviderList = new ListDataProvider<>(new ArrayList<PersonDto>(0));
+	private void initListDataProvider(DataGrid<AttachmentDto> dataGrid) {
+		dataProviderList = new ListDataProvider<>(new ArrayList<AttachmentDto>(0));
 		dataProviderList.addDataDisplay(dataGrid);
 
 		// Set the message to display when the table is empty.
@@ -229,17 +186,13 @@ public class DocsPanelView extends Composite implements Startable {
 
 	}
 
-	private void initFilterDataProvider(DataGrid<PersonDto> dataGrid) {
-		dataProviderFilter = new ListDataProvider<>(new ArrayList<PersonDto>(0));
-		dataProviderFilter.addDataDisplay(dataGrid);
-
+	private void initFilterDataProvider(DataGrid<AttachmentDto> dataGrid) {
 		// Set the message to display when the table is empty.
 		dataGrid.setEmptyTableWidget(new Label("No Data"));
-
 	}
 
 	private void filterPerson() {
-		MethodCallback<List<PersonDto>> filterCallBack = new MethodCallback<List<PersonDto>>() {
+		MethodCallback<List<AttachmentDto>> filterCallBack = new MethodCallback<List<AttachmentDto>>() {
 			@Override
 			public void onFailure(Method method, Throwable throwable) {
 				Bootbox.alert("Method call back has ERROR: " + throwable.getLocalizedMessage());
@@ -247,11 +200,11 @@ public class DocsPanelView extends Composite implements Startable {
 			}
 
 			@Override
-			public void onSuccess(Method method, List<PersonDto> persons) {
-				Bootbox.alert("Method call back is OK, first Person: " + persons.get(0).getName());
+			public void onSuccess(Method method, List<AttachmentDto> persons) {
+				Bootbox.alert("Method call back is OK, first Person: " + persons.get(0).getTitle());
 				listTab.setActive(false);
 				searchTab.setActive(true);
-				refreshGrid(persons, dataProviderFilter);
+				refreshGrid(persons, dataProviderList);
 			}
 		};
 
@@ -259,37 +212,19 @@ public class DocsPanelView extends Composite implements Startable {
 	}
 
 	private void getPersons() {
-		MethodCallback<List<PersonDto>> callback = new MethodCallback<List<PersonDto>>() {
-			@Override
-			public void onFailure(Method method, Throwable exception) {
-				logger.info("Error: " + exception);
-				Bootbox.alert("Error: " + exception);
-			}
-
-			@Override
-			public void onSuccess(Method method, List<PersonDto> persons) {
-				logger.info("The result is ok");
-				Bootbox.alert("The result is ok");
-				searchTab.setActive(false);
-				listTab.setActive(true);
-
-				refreshGrid(persons, dataProviderList);
-			}
-		};
-
 		logger.info("Get persons begins...");
 
-		confluenceContentClient.getPersons(0, 100, callback);
+		// confluenceContentClient.getAllAttachments(callback);
 
 		logger.info("Get persons ends...");
 	}
 
-	private void refreshGrid(List<PersonDto> personDtos, ListDataProvider<PersonDto> dataProvider) {
-		for (PersonDto p : personDtos) {
-			logger.info(p.getNickname() + " " + p.isInRetirement());
+	private void refreshGrid(List<AttachmentDto> attachmentDtos, ListDataProvider<AttachmentDto> dataProvider) {
+		for (AttachmentDto p : attachmentDtos) {
+			logger.info(p.getDownloadLink() + " " + p.getTitle());
 		}
 
-		dataProvider.setList(personDtos);
+		dataProvider.setList(attachmentDtos);
 	}
 
 	@EventHandler

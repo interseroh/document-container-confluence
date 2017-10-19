@@ -18,15 +18,15 @@
  */
 package com.lofidewanto.demo.mock.domain;
 
-import com.lofidewanto.demo.client.domain.ConfluenceContentClient;
-import com.lofidewanto.demo.shared.PersonDto;
-import org.fusesource.restygwt.client.MethodCallback;
-
-import javax.inject.Singleton;
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.logging.Logger;
+
+import javax.inject.Singleton;
+
+import org.fusesource.restygwt.client.MethodCallback;
+
+import com.lofidewanto.demo.client.domain.ConfluenceContentClient;
+import com.lofidewanto.demo.shared.AttachmentDto;
 
 @Singleton
 public class MockConfluenceContentClient implements ConfluenceContentClient {
@@ -35,31 +35,9 @@ public class MockConfluenceContentClient implements ConfluenceContentClient {
             .getLogger(MockConfluenceContentClient.class.getName());
 
     @Override
-	public void getPersons(Integer start, Integer length, MethodCallback<List<PersonDto>> callback) {
-        logger.info("Mock getPersons...");
+    public void getAllAttachments(
+            MethodCallback<List<AttachmentDto>> callback) {
 
-        List<PersonDto> personDtos = getPersonDtos();
-
-        callback.onSuccess(null, personDtos);
     }
 
-    @Override
-	public void filterPerson(String personName, Date fromDate, Date toDate, MethodCallback<List<PersonDto>> callback) {
-        logger.info("Mock filterPerson...");
-
-        List<PersonDto> personDtos = getPersonDtos();
-
-        callback.onSuccess(null, personDtos);
-    }
-
-    private List<PersonDto> getPersonDtos() {
-        List<PersonDto> personDtos = new ArrayList<>();
-
-        PersonDto person = new PersonDto();
-        person.setName("Lofi");
-        person.setNickname("Jawa");
-
-        personDtos.add(person);
-        return personDtos;
-    }
 }

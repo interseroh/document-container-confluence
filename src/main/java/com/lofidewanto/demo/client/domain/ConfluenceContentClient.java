@@ -18,16 +18,13 @@
  */
 package com.lofidewanto.demo.client.domain;
 
-import java.util.Date;
 import java.util.List;
 
 import org.fusesource.restygwt.client.MethodCallback;
 
-import com.lofidewanto.demo.shared.PersonDto;
+import com.lofidewanto.demo.shared.AttachmentDto;
 
 public interface ConfluenceContentClient {
 
-    void getPersons(Integer start, Integer length, MethodCallback<List<PersonDto>> callback);
-
-    void filterPerson(String personName, Date fromDate, Date toDate, MethodCallback<List<PersonDto>> callback);
+    void getAllAttachments(MethodCallback<List<AttachmentDto>> callback);
 }

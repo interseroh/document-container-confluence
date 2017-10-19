@@ -18,11 +18,11 @@
  */
 package com.lofidewanto.demo.client;
 
+import java.util.logging.Logger;
+
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
 import com.lofidewanto.demo.client.common.ServicePreparator;
-
-import java.util.logging.Logger;
 
 public class DemoGwtEntryPoint implements EntryPoint {
 

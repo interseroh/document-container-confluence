@@ -18,9 +18,13 @@
  */
 package com.lofidewanto.demo.server.service.content;
 
+import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+
+import com.lofidewanto.demo.server.domain.Attachment;
 
 @Service
 public class ConfluenceContentServiceImpl implements ConfluenceContentService {
@@ -29,12 +33,18 @@ public class ConfluenceContentServiceImpl implements ConfluenceContentService {
 			.getLogger(ConfluenceContentServiceImpl.class);
 
 	@Override
-	public void getAllAttachmentsByContent() {
-
+	public List<Attachment> getAllAttachments() {
+		return null;
 	}
 
 	@Override
-	public void getAttachmentById() {
-
+	public List<Attachment> getAllAttachmentsByPageId(String pageId) {
+		return null;
 	}
+
+	@Override
+	public Attachment getAttachmentById() {
+		return null;
+	}
+
 }
