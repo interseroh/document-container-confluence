@@ -18,14 +18,21 @@
  */
 package com.lofidewanto.demo.server.service.content;
 
+import java.util.Arrays;
 import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import com.lofidewanto.demo.server.domain.Attachment;
 import com.lofidewanto.demo.shared.DemoGwtServiceEndpoint;
@@ -52,13 +59,24 @@ public class ConfluenceContentServiceImpl implements ConfluenceContentService {
 		// Connect to Confluence
 		// TODO Handle error
 
-		// TODO Replace {pageId} with confluencePageId
 		String confluenceAttachmentList = DemoGwtServiceEndpoint.CONFLUENCE_ATTACHMENT_LIST;
+		String url = confluenceUrl.concat(confluenceAttachmentList);
 
-		List<Attachment> attachments = restTemplate
-				.getForObject(confluenceUrl + confluenceAttachmentList, List.class);
+		// Replace {pageId} with confluencePageId
+		UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(url)
+				.queryParam("pageId", confluencePageId);
 
-		return attachments;
+		HttpHeaders headers = new HttpHeaders();
+		headers.set("Accept", MediaType.APPLICATION_JSON_VALUE);
+
+		HttpEntity<?> entity = new HttpEntity<>(headers);
+
+		ResponseEntity<Attachment[]> attachmentsWithResponseEntity =  restTemplate.exchange(confluenceUrl,
+				HttpMethod.GET, entity, Attachment[].class);
+
+		Attachment[] attachments = attachmentsWithResponseEntity.getBody();
+
+		return Arrays.asList(attachments);
 	}
 
 	@Override
