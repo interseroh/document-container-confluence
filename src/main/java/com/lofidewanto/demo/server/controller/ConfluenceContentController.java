@@ -18,17 +18,22 @@
  */
 package com.lofidewanto.demo.server.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.lofidewanto.demo.server.domain.Attachment;
+import com.lofidewanto.demo.server.service.content.ConfluenceContentService;
 import com.lofidewanto.demo.shared.AttachmentDto;
 import com.lofidewanto.demo.shared.DemoGwtServiceEndpoint;
 
@@ -39,20 +44,44 @@ public class ConfluenceContentController {
     private static final Logger logger = LoggerFactory
             .getLogger(ConfluenceContentController.class);
 
+    @Autowired
+    private ConfluenceContentService confluenceContentService;
+
     /**
      * Using simple @{@link ResponseBody}.
      *
-     * @param start
-     * @param length
      * @return
      */
     @RequestMapping(value = DemoGwtServiceEndpoint.ATTACHMENT_LIST, method = RequestMethod.GET)
     public @ResponseBody
-    List<AttachmentDto> getPersons(
-            @RequestParam("start") Integer start,
-            @RequestParam("length") Integer length) {
+    ResponseEntity<List<AttachmentDto>> getAllAttachments() {
 
-        return null;
+        final List<Attachment> allAttachments = confluenceContentService
+                .getAllAttachments();
+
+        ArrayList<AttachmentDto> attachmentDtos = new ArrayList<>();
+
+        // Copy to DTO
+        for (Attachment attachment : allAttachments) {
+            AttachmentDto attachmentDto = buildAttachmentDto(attachment);
+            attachmentDtos.add(attachmentDto);
+        }
+
+        final ResponseEntity<List<AttachmentDto>> listResponseEntity = new ResponseEntity<>(
+                attachmentDtos, HttpStatus.OK);
+
+        return listResponseEntity;
+    }
+
+    private AttachmentDto buildAttachmentDto(Attachment attachment) {
+        AttachmentDto attachmentDto = new AttachmentDto();
+        attachmentDto.setDownloadLink(attachment.getDownloadLink());
+        attachmentDto.setFileSize(attachment.getFileSize());
+        attachmentDto.setId(attachment.getId());
+        attachmentDto.setMediaType(attachment.getMediaType());
+        attachmentDto.setTitle(attachment.getTitle());
+
+        return attachmentDto;
     }
 
 }
