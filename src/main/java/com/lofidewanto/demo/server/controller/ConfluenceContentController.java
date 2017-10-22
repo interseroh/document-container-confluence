@@ -48,7 +48,7 @@ public class ConfluenceContentController {
     private ConfluenceContentService confluenceContentService;
 
     /**
-     * Using simple @{@link ResponseBody}.
+     * Get all attachments from Confluence.
      *
      * @return
      */
