@@ -18,6 +18,7 @@
  */
 package com.lofidewanto.demo.server.service.content;
 
+import java.net.URI;
 import java.util.Arrays;
 import java.util.List;
 
@@ -61,22 +62,28 @@ public class ConfluenceContentServiceImpl implements ConfluenceContentService {
 
 		String confluenceAttachmentList = DemoGwtServiceEndpoint.CONFLUENCE_ATTACHMENT_LIST;
 		String url = confluenceUrl.concat(confluenceAttachmentList);
-
-		// Replace {pageId} with confluencePageId
-		UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(url)
-				.queryParam("pageId", confluencePageId);
+		URI uri = replacePageId(url);
 
 		HttpHeaders headers = new HttpHeaders();
 		headers.set("Accept", MediaType.APPLICATION_JSON_VALUE);
 
 		HttpEntity<?> entity = new HttpEntity<>(headers);
 
-		ResponseEntity<Attachment[]> attachmentsWithResponseEntity =  restTemplate.exchange(confluenceUrl,
+		ResponseEntity<Attachment[]> attachmentsWithResponseEntity =  restTemplate.exchange(uri,
 				HttpMethod.GET, entity, Attachment[].class);
 
 		Attachment[] attachments = attachmentsWithResponseEntity.getBody();
 
 		return Arrays.asList(attachments);
+	}
+
+	URI replacePageId(String url) {
+		// Replace {pageId} with confluencePageId
+		UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(url)
+				.queryParam("pageId", confluencePageId);
+		URI uri = builder.build().encode().toUri();
+
+		return uri;
 	}
 
 	@Override
