@@ -18,16 +18,16 @@
  */
 package com.lofidewanto.demo.server.service.content;
 
+import java.net.MalformedURLException;
 import java.net.URI;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.Answers;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.test.util.ReflectionTestUtils;
 import org.springframework.web.client.RestTemplate;
 
@@ -41,7 +41,7 @@ public class ConfluenceContentServiceImplTest {
 	@InjectMocks
 	private ConfluenceContentServiceImpl confluenceContentService = new ConfluenceContentServiceImpl();
 
-	@Mock
+	@Mock(answer = Answers.RETURNS_DEEP_STUBS)
 	private RestTemplate restTemplate;
 
 	private String confluenceUrl = "http://confluence:8080";
@@ -55,19 +55,15 @@ public class ConfluenceContentServiceImplTest {
 	}
 
 	@Test
-	public void testGetAllAttachments() {
-		// Prepare
-		confluenceContentService.getAllAttachments();
-	}
-
-	@Test
-	public void testReplacePageId() {
+	public void testReplacePageId() throws MalformedURLException {
 		String confluenceAttachmentList = DemoGwtServiceEndpoint.CONFLUENCE_ATTACHMENT_LIST;
 		String url = confluenceUrl.concat(confluenceAttachmentList);
 
 		URI uri = confluenceContentService.replacePageId(url);
 
-		assertEquals("URI", confluenceUrl + "/rest/api/content/" + confluencePageId + "/child/attachment", "");
+		final String expected = confluenceUrl + "/rest/api/content/" + confluencePageId
+						+ "/child/attachment";
+		assertEquals("URI", expected, uri.toURL().toString());
 	}
 
 

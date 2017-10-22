@@ -79,9 +79,8 @@ public class ConfluenceContentServiceImpl implements ConfluenceContentService {
 
 	URI replacePageId(String url) {
 		// Replace {pageId} with confluencePageId
-		UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(url)
-				.queryParam("pageId", confluencePageId);
-		URI uri = builder.build().encode().toUri();
+		UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(url);
+		URI uri = builder.buildAndExpand(confluencePageId).encode().toUri();
 
 		return uri;
 	}
