@@ -20,28 +20,38 @@ package com.lofidewanto.demo.server.service.content;
 
 import java.net.MalformedURLException;
 import java.net.URI;
+import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.Answers;
 import org.mockito.InjectMocks;
+import org.mockito.Matchers;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.test.util.ReflectionTestUtils;
 import org.springframework.web.client.RestTemplate;
 
+import com.lofidewanto.demo.server.domain.Attachment;
+import com.lofidewanto.demo.server.domain.AttachmentImpl;
 import com.lofidewanto.demo.shared.DemoGwtServiceEndpoint;
 
+import static org.mockito.Matchers.anyString;
+import static org.mockito.Matchers.eq;
+import static org.mockito.Mockito.when;
 import static org.springframework.test.util.AssertionErrors.assertEquals;
 
 @RunWith(MockitoJUnitRunner.class)
 public class ConfluenceContentServiceImplTest {
 
 	@InjectMocks
-	private ConfluenceContentServiceImpl confluenceContentService = new ConfluenceContentServiceImpl();
+	private ConfluenceContentServiceImpl confluenceContentService;
 
-	@Mock(answer = Answers.RETURNS_DEEP_STUBS)
+	@Mock
 	private RestTemplate restTemplate;
 
 	private String confluenceUrl = "http://confluence:8080";
@@ -56,15 +66,42 @@ public class ConfluenceContentServiceImplTest {
 
 	@Test
 	public void testReplacePageId() throws MalformedURLException {
+		// Prepare
 		String confluenceAttachmentList = DemoGwtServiceEndpoint.CONFLUENCE_ATTACHMENT_LIST;
 		String url = confluenceUrl.concat(confluenceAttachmentList);
 
+		// CUT
 		URI uri = confluenceContentService.replacePageId(url);
 
+		// Verify
 		final String expected = confluenceUrl + "/rest/api/content/" + confluencePageId
 						+ "/child/attachment";
 		assertEquals("URI", expected, uri.toURL().toString());
 	}
 
+	@Test
+	public void testGetAllAttachments() {
+		// Prepare
+		Attachment[] attachments = new Attachment[3];
+		Attachment attach1 = new AttachmentImpl();
+		Attachment attach2 = new AttachmentImpl();
+		Attachment attach3 = new AttachmentImpl();
+		attachments[0] = attach1;
+		attachments[1] = attach2;
+		attachments[2] = attach3;
+
+		ResponseEntity attachmentsWithResponseEntity =
+				new ResponseEntity<Attachment[]>(HttpStatus.ACCEPTED);
+
+		when(restTemplate.exchange(anyString(), eq(HttpMethod.GET), Matchers.<HttpEntity<?>>any(),
+				Matchers.<Class<Attachment[]>>any(), Matchers.<Object>anyVararg())).
+				thenReturn(attachmentsWithResponseEntity);
+
+		// CUT
+		List<Attachment> allAttachments = confluenceContentService.getAllAttachments();
+
+		// Verify
+
+	}
 
 }
