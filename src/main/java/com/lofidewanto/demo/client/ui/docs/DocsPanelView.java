@@ -115,7 +115,7 @@ public class DocsPanelView extends Composite implements Startable {
 		initTableColumns(dataGrid1);
 		initListDataProvider(dataGrid1);
 
-		getPersons();
+		getDocuments();
 	}
 
 	@UiHandler("refreshButton")
@@ -125,7 +125,6 @@ public class DocsPanelView extends Composite implements Startable {
 
 		// Both buttons disable
 		refreshButton.setEnabled(false);
-
 
 		boolean result = runTimerRefreshButton();
 
@@ -164,7 +163,7 @@ public class DocsPanelView extends Composite implements Startable {
 				return object.getTitle();
 			}
 		};
-		dataGrid.addColumn(nicknameColumn, "Nickname");
+		dataGrid.addColumn(nicknameColumn, "Title");
 		dataGrid.setColumnWidth(nicknameColumn, 40, Style.Unit.PCT);
 
 		// Nick name.
@@ -174,7 +173,7 @@ public class DocsPanelView extends Composite implements Startable {
 				return object.getTitle();
 			}
 		};
-		dataGrid.addColumn(nameColumn, "Name");
+		dataGrid.addColumn(nameColumn, "Download");
 		dataGrid.setColumnWidth(nameColumn, 40, Style.Unit.PCT);
 	}
 
@@ -211,7 +210,7 @@ public class DocsPanelView extends Composite implements Startable {
 		logger.info("Calling filterPerson Service...");
 	}
 
-	private void getPersons() {
+	private void getDocuments() {
 		logger.info("Get persons begins...");
 
 		confluenceContentClient.getAllAttachments(new MethodCallback<List<AttachmentDto>>() {
