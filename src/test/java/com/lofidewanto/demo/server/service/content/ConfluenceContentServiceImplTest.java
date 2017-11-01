@@ -42,7 +42,6 @@ import com.lofidewanto.demo.shared.DemoGwtServiceEndpoint;
 
 import static org.mockito.Matchers.anyObject;
 import static org.mockito.Matchers.eq;
-import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.util.AssertionErrors.assertEquals;
@@ -96,9 +95,9 @@ public class ConfluenceContentServiceImplTest {
 		ResponseEntity<Attachment[]> attachmentsWithResponseEntity = mock(ResponseEntity.class);
 		when(attachmentsWithResponseEntity.getBody()).thenReturn(attachments);
 
-		doReturn(attachmentsWithResponseEntity).when(restTemplate).exchange(anyObject(),
+		when(restTemplate.exchange(anyObject(),
 				eq(HttpMethod.GET), Matchers.<HttpEntity<?>>any(),
-				Matchers.<Class<Attachment[]>>any());
+				Matchers.<Class<Attachment[]>>any())).thenReturn(attachmentsWithResponseEntity);
 
 		// CUT
 		List<Attachment> allAttachments = confluenceContentService.getAllAttachments();
