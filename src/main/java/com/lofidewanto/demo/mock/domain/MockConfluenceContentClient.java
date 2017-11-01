@@ -18,6 +18,7 @@
  */
 package com.lofidewanto.demo.mock.domain;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -37,7 +38,23 @@ public class MockConfluenceContentClient implements ConfluenceContentClient {
     @Override
     public void getAllAttachments(
             MethodCallback<List<AttachmentDto>> callback) {
+        final List<AttachmentDto> attachments = createAttachments();
 
+        callback.onSuccess(null, attachments);
+    }
+
+    private List<AttachmentDto> createAttachments() {
+        // Create mock attachments
+        AttachmentDto attach1 = new AttachmentDto();
+        AttachmentDto attach2 = new AttachmentDto();
+        AttachmentDto attach3 = new AttachmentDto();
+
+        List<AttachmentDto> attachmentDtos = new ArrayList<>();
+        attachmentDtos.add(attach1);
+        attachmentDtos.add(attach2);
+        attachmentDtos.add(attach3);
+
+        return attachmentDtos;
     }
 
 }
