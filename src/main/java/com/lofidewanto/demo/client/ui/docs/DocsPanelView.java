@@ -20,6 +20,7 @@ package com.lofidewanto.demo.client.ui.docs;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.inject.Inject;
@@ -183,7 +184,6 @@ public class DocsPanelView extends Composite implements Startable {
 
 		// Set the message to display when the table is empty.
 		dataGrid.setEmptyTableWidget(new Label("No Data"));
-
 	}
 
 	private void initFilterDataProvider(DataGrid<AttachmentDto> dataGrid) {
@@ -214,14 +214,24 @@ public class DocsPanelView extends Composite implements Startable {
 	private void getPersons() {
 		logger.info("Get persons begins...");
 
-		// confluenceContentClient.getAllAttachments(callback);
+		confluenceContentClient.getAllAttachments(new MethodCallback<List<AttachmentDto>>() {
+			@Override
+			public void onFailure(Method method, Throwable throwable) {
+				logger.log(Level.SEVERE, "Error: " + throwable.getMessage());
+			}
 
-		logger.info("Get persons ends...");
+			@Override
+			public void onSuccess(Method method,
+					List<AttachmentDto> attachmentDtos) {
+				logger.info("Get persons successfully ends: " + attachmentDtos.size());
+				refreshGrid(attachmentDtos, dataProviderList);
+			}
+		});
 	}
 
 	private void refreshGrid(List<AttachmentDto> attachmentDtos, ListDataProvider<AttachmentDto> dataProvider) {
-		for (AttachmentDto p : attachmentDtos) {
-			logger.info(p.getDownloadLink() + " " + p.getTitle());
+		for (AttachmentDto attachment : attachmentDtos) {
+			logger.info("File: " + attachment.getDownloadLink() + " " + attachment.getTitle());
 		}
 
 		dataProvider.setList(attachmentDtos);

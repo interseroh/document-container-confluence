@@ -46,13 +46,38 @@ public class MockConfluenceContentClient implements ConfluenceContentClient {
     private List<AttachmentDto> createAttachments() {
         // Create mock attachments
         AttachmentDto attach1 = new AttachmentDto();
-        AttachmentDto attach2 = new AttachmentDto();
-        AttachmentDto attach3 = new AttachmentDto();
+        attach1.setTitle("Document 1");
+        attach1.setMediaType("PDF");
+        attach1.setId("1");
+        attach1.setFileSize("200");
+        attach1.setDownloadLink("xxx");
 
-        List<AttachmentDto> attachmentDtos = new ArrayList<>();
+        AttachmentDto attach2 = new AttachmentDto();
+        attach2.setTitle("Document 2");
+        attach2.setMediaType("PDF");
+        attach2.setId("2");
+        attach2.setFileSize("200");
+        attach2.setDownloadLink("xxx");
+
+        AttachmentDto attach3 = new AttachmentDto();
+        attach3.setTitle("Document 3");
+        attach3.setMediaType("PDF");
+        attach3.setId("3");
+        attach3.setFileSize("200");
+        attach3.setDownloadLink("xxx");
+
+        AttachmentDto attach4 = new AttachmentDto();
+        attach4.setTitle("Document 4");
+        attach4.setMediaType("PDF");
+        attach4.setId("4");
+        attach4.setFileSize("200");
+        attach4.setDownloadLink("xxx");
+
+        ArrayList<AttachmentDto> attachmentDtos = new ArrayList<>();
         attachmentDtos.add(attach1);
         attachmentDtos.add(attach2);
         attachmentDtos.add(attach3);
+        attachmentDtos.add(attach4);
 
         return attachmentDtos;
     }

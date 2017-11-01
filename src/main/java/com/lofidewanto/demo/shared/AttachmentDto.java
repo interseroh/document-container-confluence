@@ -19,44 +19,51 @@
 package com.lofidewanto.demo.shared;
 
 public class AttachmentDto {
+
+	private String id;
+	private String title;
+	private String downloadLink;
+	private String mediaType;
+	private String fileSize;
+
 	public String getId() {
-		return null;
+		return id;
 	}
 
 	public void setId(String id) {
-
+		this.id = id;
 	}
 
 	public String getTitle() {
-		return null;
+		return title;
 	}
 
 	public void setTitle(String title) {
-
+		this.title = title;
 	}
 
 	public String getDownloadLink() {
-		return null;
+		return downloadLink;
 	}
 
 	public void setDownloadLink(String downloadLink) {
-
+		this.downloadLink = downloadLink;
 	}
 
 	public String getMediaType() {
-		return null;
+		return mediaType;
 	}
 
 	public void setMediaType(String mediaType) {
-
+		this.mediaType = mediaType;
 	}
 
 	public String getFileSize() {
-		return null;
+		return fileSize;
 	}
 
 	public void setFileSize(String fileSize) {
-
+		this.fileSize = fileSize;
 	}
 
 }

@@ -52,8 +52,6 @@ public class DemoGwtWebApp {
 
 	private static final String JQUERY_UI_URL = "https://code.jquery.com/ui/1.11.4/jquery-ui.js";
 
-    private static final String MYFUNCTION_URL = "myfunction.js";
-
 	private static final String HOST_LOADING_IMAGE = "loadingImage";
 
 	private static final String HOST_MAIN_PANEL = "mainPanel";
@@ -77,22 +75,6 @@ public class DemoGwtWebApp {
         this.docsPanelView = docsPanelView;
 
         injectJqueryScript();
-        injectMyFunctionScript();
-    }
-
-    private void injectMyFunctionScript() {
-        ScriptInjector.fromUrl(MYFUNCTION_URL).setCallback(new Callback<Void, Exception>() {
-            @Override
-            public void onFailure(Exception reason) {
-                logger.info("Script load failed Info: " + reason);
-            }
-
-            @Override
-            public void onSuccess(Void result) {
-                logger.info("MyFunction loaded successful!");
-            }
-
-        }).setRemoveTag(true).setWindow(ScriptInjector.TOP_WINDOW).inject();
     }
 
     private void injectJqueryScript() {
