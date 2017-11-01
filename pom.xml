@@ -45,7 +45,7 @@
 		<gwt.bootstrap.version>0.9.3</gwt.bootstrap.version>
 		<gwt.eventbinder.version>1.1.0</gwt.eventbinder.version>
 		<gwt.resty.version>2.2.1</gwt.resty.version>
-		<gwt.mockito.version>1.1.6</gwt.mockito.version>
+		<gwt.mockito.version>2.7.22</gwt.mockito.version>
 		<kissmda.maven.plugin.version>2.1.1</kissmda.maven.plugin.version>
 		<kissmda.cartridges.simple.java.version>2.1.1</kissmda.cartridges.simple.java.version>
 		<kissmda.extensions.importpacker.version>2.1.1</kissmda.extensions.importpacker.version>

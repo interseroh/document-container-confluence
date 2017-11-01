@@ -38,6 +38,8 @@ import org.springframework.web.util.UriComponentsBuilder;
 import com.lofidewanto.demo.server.domain.Attachment;
 import com.lofidewanto.demo.shared.DemoGwtServiceEndpoint;
 
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
+
 @Service
 public class ConfluenceContentServiceImpl implements ConfluenceContentService {
 
@@ -69,7 +71,7 @@ public class ConfluenceContentServiceImpl implements ConfluenceContentService {
 
 		HttpEntity<?> entity = new HttpEntity<>(headers);
 
-		ResponseEntity<Attachment[]> attachmentsWithResponseEntity =  restTemplate.exchange(uri,
+		ResponseEntity<Attachment[]>attachmentsWithResponseEntity  =  restTemplate.exchange(uri,
 				HttpMethod.GET, entity, Attachment[].class);
 
 		Attachment[] attachments = attachmentsWithResponseEntity.getBody();
@@ -87,12 +89,12 @@ public class ConfluenceContentServiceImpl implements ConfluenceContentService {
 
 	@Override
 	public List<Attachment> getAllAttachmentsByPageId(String pageId) {
-		return null;
+		throw new NotImplementedException();
 	}
 
 	@Override
 	public Attachment getAttachmentById() {
-		return null;
+		throw new NotImplementedException();
 	}
 
 }

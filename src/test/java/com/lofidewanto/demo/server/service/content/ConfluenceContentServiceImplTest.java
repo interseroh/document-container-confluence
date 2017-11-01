@@ -28,10 +28,10 @@ import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Matchers;
 import org.mockito.Mock;
+import org.mockito.Spy;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.util.ReflectionTestUtils;
 import org.springframework.web.client.RestTemplate;
@@ -40,8 +40,10 @@ import com.lofidewanto.demo.server.domain.Attachment;
 import com.lofidewanto.demo.server.domain.AttachmentImpl;
 import com.lofidewanto.demo.shared.DemoGwtServiceEndpoint;
 
-import static org.mockito.Matchers.anyString;
+import static org.mockito.Matchers.anyObject;
 import static org.mockito.Matchers.eq;
+import static org.mockito.Mockito.doReturn;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.util.AssertionErrors.assertEquals;
 
@@ -49,7 +51,8 @@ import static org.springframework.test.util.AssertionErrors.assertEquals;
 public class ConfluenceContentServiceImplTest {
 
 	@InjectMocks
-	private ConfluenceContentServiceImpl confluenceContentService;
+	@Spy
+	private ConfluenceContentServiceImpl confluenceContentService = new ConfluenceContentServiceImpl();
 
 	@Mock
 	private RestTemplate restTemplate;
@@ -90,18 +93,18 @@ public class ConfluenceContentServiceImplTest {
 		attachments[1] = attach2;
 		attachments[2] = attach3;
 
-		ResponseEntity attachmentsWithResponseEntity =
-				new ResponseEntity<Attachment[]>(HttpStatus.ACCEPTED);
+		ResponseEntity<Attachment[]> attachmentsWithResponseEntity = mock(ResponseEntity.class);
+		when(attachmentsWithResponseEntity.getBody()).thenReturn(attachments);
 
-		when(restTemplate.exchange(anyString(), eq(HttpMethod.GET), Matchers.<HttpEntity<?>>any(),
-				Matchers.<Class<Attachment[]>>any(), Matchers.<Object>anyVararg())).
-				thenReturn(attachmentsWithResponseEntity);
+		doReturn(attachmentsWithResponseEntity).when(restTemplate).exchange(anyObject(),
+				eq(HttpMethod.GET), Matchers.<HttpEntity<?>>any(),
+				Matchers.<Class<Attachment[]>>any());
 
 		// CUT
 		List<Attachment> allAttachments = confluenceContentService.getAllAttachments();
 
 		// Verify
-
+		assertEquals("All attachments", 3, allAttachments.size());
 	}
 
 }
