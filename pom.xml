@@ -402,7 +402,7 @@
 							<style>DETAILED</style>
 							<generateJsInteropExports>true</generateJsInteropExports>
                             <launcherDir>${project.build.directory}/classes/public</launcherDir>
-                            <codeServerPort>9876</codeServerPort>
+                            <codeServerPort>9886</codeServerPort>
 						</configuration>
 					</plugin>
 				</plugins>
@@ -463,7 +463,7 @@
                             <style>DETAILED</style>
                             <generateJsInteropExports>true</generateJsInteropExports>
                             <launcherDir>${project.build.directory}/classes/public</launcherDir>
-                            <codeServerPort>9876</codeServerPort>
+                            <codeServerPort>9886</codeServerPort>
                         </configuration>
                     </plugin>
                 </plugins>
