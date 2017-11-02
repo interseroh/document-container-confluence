@@ -31,21 +31,15 @@ import org.fusesource.restygwt.client.MethodCallback;
 import org.gwtbootstrap3.client.ui.Button;
 import org.gwtbootstrap3.client.ui.Label;
 import org.gwtbootstrap3.client.ui.Pagination;
-import org.gwtbootstrap3.client.ui.constants.ButtonSize;
-import org.gwtbootstrap3.client.ui.constants.ButtonType;
-import org.gwtbootstrap3.client.ui.gwt.ButtonCell;
 import org.gwtbootstrap3.client.ui.gwt.DataGrid;
 import org.gwtbootstrap3.extras.bootbox.client.Bootbox;
 
-import com.google.gwt.cell.client.TextCell;
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.dom.client.Style;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.shared.EventBus;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
-import com.google.gwt.user.cellview.client.Column;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Widget;
@@ -83,6 +77,8 @@ public class DocsPanelView extends Composite implements Startable {
 
 	private ListDataProvider<AttachmentDto> dataProviderList;
 
+	private final DocsDataGrid docsDataGrid;
+
 	@UiField
 	Button refreshButton;
 
@@ -95,13 +91,14 @@ public class DocsPanelView extends Composite implements Startable {
 	@Inject
 	public DocsPanelView(EventBus eventbus, ErrorFormatter errorFormatter,
 			LoadingMessagePopupPanel loadingMessagePopupPanel, Messages messages,
-			ConfluenceContentClient confluenceContentClient) {
+			ConfluenceContentClient confluenceContentClient, DocsDataGrid docsDataGrid) {
 		initWidget(uiBinder.createAndBindUi(this));
 		this.eventBus = eventbus;
 		this.messages = messages;
 		eventBinder.bindEventHandlers(this, eventBus);
 
 		this.confluenceContentClient = confluenceContentClient;
+		this.docsDataGrid = docsDataGrid;
 	}
 
 	@Override
@@ -113,8 +110,8 @@ public class DocsPanelView extends Composite implements Startable {
 	public void init() {
 		logger.info("DocsPanelView created...");
 
-		initTableColumns(dataGrid1);
 		initListDataProvider(dataGrid1);
+		docsDataGrid.initTableColumns(dataGrid1);
 
 		getDocuments();
 	}
@@ -153,42 +150,6 @@ public class DocsPanelView extends Composite implements Startable {
 		logger.info("Enable the button again...");
 	}
 
-	private void initTableColumns(DataGrid<AttachmentDto> dataGrid) {
-		dataGrid.setWidth("100%");
-		dataGrid.setAutoHeaderRefreshDisabled(true);
-
-		// Title
-		Column<AttachmentDto, String> titleColumn = new Column<AttachmentDto, String>(new TextCell()) {
-			@Override
-			public String getValue(AttachmentDto object) {
-				return object.getTitle();
-			}
-		};
-		dataGrid.addColumn(titleColumn, messages.table_title());
-		dataGrid.setColumnWidth(titleColumn, 40, Style.Unit.PCT);
-
-		// Media type
-		Column<AttachmentDto, String> contentTypeColumn = new Column<AttachmentDto, String>(new TextCell()) {
-			@Override
-			public String getValue(AttachmentDto object) {
-				return object.getMediaType();
-			}
-		};
-		dataGrid.addColumn(contentTypeColumn, messages.table_contentType());
-		dataGrid.setColumnWidth(contentTypeColumn, 40, Style.Unit.PCT);
-
-		// Download link Button
-		Column<AttachmentDto, String> downloadColumn = new Column<AttachmentDto, String>(new ButtonCell(
-				ButtonType.INFO, ButtonSize.SMALL)) {
-			@Override
-			public String getValue(AttachmentDto object) {
-				return messages.table_downloadButton();
-			}
-		};
-		dataGrid.addColumn(downloadColumn, messages.table_download());
-		dataGrid.setColumnWidth(downloadColumn, 40, Style.Unit.PCT);
-	}
-
 	private void initListDataProvider(DataGrid<AttachmentDto> dataGrid) {
 		dataProviderList = new ListDataProvider<>(new ArrayList<AttachmentDto>(0));
 		dataProviderList.addDataDisplay(dataGrid);
@@ -202,26 +163,8 @@ public class DocsPanelView extends Composite implements Startable {
 		dataGrid.setEmptyTableWidget(new Label(messages.table_nodata()));
 	}
 
-	private void filterPerson() {
-		MethodCallback<List<AttachmentDto>> filterCallBack = new MethodCallback<List<AttachmentDto>>() {
-			@Override
-			public void onFailure(Method method, Throwable throwable) {
-				Bootbox.alert("Method call back has ERROR: " + throwable.getLocalizedMessage());
-				throwable.printStackTrace();
-			}
-
-			@Override
-			public void onSuccess(Method method, List<AttachmentDto> persons) {
-				Bootbox.alert("Method call back is OK, first Person: " + persons.get(0).getTitle());
-				refreshGrid(persons, dataProviderList);
-			}
-		};
-
-		logger.info("Calling filterPerson Service...");
-	}
-
 	private void getDocuments() {
-		logger.info("Get persons begins...");
+		logger.info("Get docs begins...");
 
 		confluenceContentClient.getAllAttachments(new MethodCallback<List<AttachmentDto>>() {
 			@Override
@@ -232,7 +175,7 @@ public class DocsPanelView extends Composite implements Startable {
 			@Override
 			public void onSuccess(Method method,
 					List<AttachmentDto> attachmentDtos) {
-				logger.info("Get persons successfully ends: " + attachmentDtos.size());
+				logger.info("Get docs successfully ends: " + attachmentDtos.size());
 				refreshGrid(attachmentDtos, dataProviderList);
 			}
 		});

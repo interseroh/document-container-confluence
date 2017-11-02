@@ -68,11 +68,15 @@ public class DocsPanelViewTest {
 	@Mock
 	private Messages messages;
 
+	@Mock
+	private DocsDataGrid docsDataGrid;
+
 	@Before
 	public void setUp() throws Exception {
 		// CUT create
 		view = new DocsPanelView(eventBus, errorFormatter,
-				loadingMessagePopupPanel, messages, confluenceContentClient);
+				loadingMessagePopupPanel, messages, confluenceContentClient,
+				docsDataGrid);
 
 		// Create a spy on the view to mock view.runtimer()
 		view = spy(view);
