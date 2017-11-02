@@ -123,7 +123,6 @@ public class ConfluenceContentServiceImpl implements ConfluenceContentService {
 			fileSize = responseInputStream.available();
 		}
 		catch (IOException e) {
-			logger.error("Cannot get attachment file from Confluence: " + e.getMessage(), e);
 			throw new RuntimeException(e);
 		}
 
