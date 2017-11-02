@@ -117,8 +117,10 @@ public class ConfluenceContentServiceImpl implements ConfluenceContentService {
 				entity, Resource.class);
 
 		InputStream responseInputStream;
+		int fileSize = 0;
 		try {
 			responseInputStream = responseEntity.getBody().getInputStream();
+			fileSize = responseInputStream.available();
 		}
 		catch (IOException e) {
 			logger.error("Cannot get attachment file from Confluence: " + e.getMessage(), e);
@@ -127,6 +129,7 @@ public class ConfluenceContentServiceImpl implements ConfluenceContentService {
 
 		Attachment attachment = new AttachmentImpl();
 		attachment.setFileContent(responseInputStream);
+		attachment.setFileSize(String.valueOf(fileSize));
 
 		return attachment;
 	}
