@@ -113,6 +113,7 @@ public class ConfluenceContentServiceImpl implements ConfluenceContentService {
 
 		HttpEntity<?> entity = new HttpEntity<>(headers);
 
+		// Tips: https://stackoverflow.com/questions/36379835/getting-inputstream-with-resttemplate
 		ResponseEntity<Resource> responseEntity = restTemplate.exchange(uri, HttpMethod.GET,
 				entity, Resource.class);
 

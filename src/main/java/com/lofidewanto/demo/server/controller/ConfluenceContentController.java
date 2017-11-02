@@ -85,7 +85,6 @@ public class ConfluenceContentController {
     @RequestMapping(value = DemoGwtServiceEndpoint.ATTACHMENT_DOWNLOAD, method = RequestMethod.GET)
     public ResponseEntity<Resource> downloadAttachmentByDownloadLink(String downloadLink,
             String mediaType) {
-        // TODO Close the InputStream after finish
 
         Attachment attachment = confluenceContentService.getAttachmentByDownloadLink(downloadLink);
         InputStreamResource resource = new InputStreamResource(attachment.getFileContent());
