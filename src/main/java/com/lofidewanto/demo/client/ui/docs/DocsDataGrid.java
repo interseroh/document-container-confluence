@@ -25,7 +25,9 @@ import org.gwtbootstrap3.client.ui.constants.ButtonSize;
 import org.gwtbootstrap3.client.ui.constants.ButtonType;
 import org.gwtbootstrap3.client.ui.gwt.ButtonCell;
 import org.gwtbootstrap3.client.ui.gwt.DataGrid;
+import org.gwtbootstrap3.extras.bootbox.client.Bootbox;
 
+import com.google.gwt.cell.client.FieldUpdater;
 import com.google.gwt.cell.client.TextCell;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.user.cellview.client.Column;
@@ -78,5 +80,14 @@ public class DocsDataGrid {
 		};
 		dataGrid.addColumn(downloadColumn, messages.table_download());
 		dataGrid.setColumnWidth(downloadColumn, 40, Style.Unit.PCT);
+
+		downloadColumn.setFieldUpdater(new FieldUpdater<AttachmentDto, String>() {
+			@Override
+			public void update(int index, AttachmentDto object, String value) {
+				// Download clicked
+				Bootbox.alert("Download clicked: " + object.getTitle() + " - "
+						+ object.getDownloadLink());
+			}
+		});
 	}
 }
