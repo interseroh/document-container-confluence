@@ -50,28 +50,28 @@ public class MockConfluenceContentClient implements ConfluenceContentClient {
         attach1.setMediaType("PDF");
         attach1.setId("1");
         attach1.setFileSize("200");
-        attach1.setDownloadLink("xxx");
+        attach1.setDownloadLink("/ayu.pdf");
 
         AttachmentDto attach2 = new AttachmentDto();
         attach2.setTitle("Document 2");
         attach2.setMediaType("PDF");
         attach2.setId("2");
         attach2.setFileSize("200");
-        attach2.setDownloadLink("xxx");
+        attach2.setDownloadLink("/tari.pdf");
 
         AttachmentDto attach3 = new AttachmentDto();
         attach3.setTitle("Document 3");
         attach3.setMediaType("PDF");
         attach3.setId("3");
         attach3.setFileSize("200");
-        attach3.setDownloadLink("xxx");
+        attach3.setDownloadLink("/jojo.pdf");
 
         AttachmentDto attach4 = new AttachmentDto();
         attach4.setTitle("Document 4");
         attach4.setMediaType("PDF");
         attach4.setId("4");
         attach4.setFileSize("200");
-        attach4.setDownloadLink("xxx");
+        attach4.setDownloadLink("/book1.pdf");
 
         ArrayList<AttachmentDto> attachmentDtos = new ArrayList<>();
         attachmentDtos.add(attach1);

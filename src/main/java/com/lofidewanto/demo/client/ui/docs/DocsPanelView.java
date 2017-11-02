@@ -31,6 +31,9 @@ import org.fusesource.restygwt.client.MethodCallback;
 import org.gwtbootstrap3.client.ui.Button;
 import org.gwtbootstrap3.client.ui.Label;
 import org.gwtbootstrap3.client.ui.Pagination;
+import org.gwtbootstrap3.client.ui.constants.ButtonSize;
+import org.gwtbootstrap3.client.ui.constants.ButtonType;
+import org.gwtbootstrap3.client.ui.gwt.ButtonCell;
 import org.gwtbootstrap3.client.ui.gwt.DataGrid;
 import org.gwtbootstrap3.extras.bootbox.client.Bootbox;
 
@@ -175,11 +178,12 @@ public class DocsPanelView extends Composite implements Startable {
 		dataGrid.addColumn(contentTypeColumn, messages.table_contentType());
 		dataGrid.setColumnWidth(contentTypeColumn, 40, Style.Unit.PCT);
 
-		// Download link
-		Column<AttachmentDto, String> downloadColumn = new Column<AttachmentDto, String>(new TextCell()) {
+		// Download link Button
+		Column<AttachmentDto, String> downloadColumn = new Column<AttachmentDto, String>(new ButtonCell(
+				ButtonType.INFO, ButtonSize.SMALL)) {
 			@Override
 			public String getValue(AttachmentDto object) {
-				return object.getDownloadLink();
+				return messages.table_downloadButton();
 			}
 		};
 		dataGrid.addColumn(downloadColumn, messages.table_download());
