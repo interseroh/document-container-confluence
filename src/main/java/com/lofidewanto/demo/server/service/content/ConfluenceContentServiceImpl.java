@@ -18,6 +18,8 @@
  */
 package com.lofidewanto.demo.server.service.content;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.net.URI;
 import java.util.Arrays;
 import java.util.List;
@@ -26,6 +28,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.Resource;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -36,6 +39,7 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import com.lofidewanto.demo.server.domain.Attachment;
+import com.lofidewanto.demo.server.domain.AttachmentImpl;
 import com.lofidewanto.demo.shared.DemoGwtServiceEndpoint;
 
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
@@ -88,13 +92,43 @@ public class ConfluenceContentServiceImpl implements ConfluenceContentService {
 	}
 
 	@Override
-	public List<Attachment> getAllAttachmentsByPageId(String pageId) {
+	public List<Attachment> getAttachmentsByPageId(String pageId) {
 		throw new NotImplementedException();
 	}
 
 	@Override
-	public Attachment getAttachmentById() {
+	public Attachment getAttachmentById(String id) {
 		throw new NotImplementedException();
+	}
+
+	@Override
+	public Attachment getAttachmentByDownloadLink(String downloadLink) {
+		// Get InputStream from Confluence
+		String url = confluenceUrl.concat(downloadLink);
+		UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(url);
+		URI uri = builder.build().toUri();
+
+		HttpHeaders headers = new HttpHeaders();
+		headers.set("Accept", MediaType.ALL_VALUE);
+
+		HttpEntity<?> entity = new HttpEntity<>(headers);
+
+		ResponseEntity<Resource> responseEntity = restTemplate.exchange(uri, HttpMethod.GET,
+				entity, Resource.class);
+
+		InputStream responseInputStream;
+		try {
+			responseInputStream = responseEntity.getBody().getInputStream();
+		}
+		catch (IOException e) {
+			logger.error("Cannot get attachment file from Confluence: " + e.getMessage(), e);
+			throw new RuntimeException(e);
+		}
+
+		Attachment attachment = new AttachmentImpl();
+		attachment.setFileContent(responseInputStream);
+
+		return attachment;
 	}
 
 }

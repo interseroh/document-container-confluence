@@ -24,7 +24,11 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.InputStreamResource;
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -53,8 +57,7 @@ public class ConfluenceContentController {
      * @return
      */
     @RequestMapping(value = DemoGwtServiceEndpoint.ATTACHMENT_LIST, method = RequestMethod.GET)
-    public @ResponseBody
-    ResponseEntity<List<AttachmentDto>> getAllAttachments() {
+    public @ResponseBody ResponseEntity<List<AttachmentDto>> getAllAttachments() {
 
         final List<Attachment> allAttachments = confluenceContentService
                 .getAllAttachments();
@@ -71,6 +74,34 @@ public class ConfluenceContentController {
                 attachmentDtos, HttpStatus.OK);
 
         return listResponseEntity;
+    }
+
+    /**
+     * Get one attachment as Stream.
+     *
+     * @param downloadLink
+     * @return
+     */
+    @RequestMapping(value = DemoGwtServiceEndpoint.ATTACHMENT_DOWNLOAD, method = RequestMethod.GET)
+    public ResponseEntity<Resource> downloadAttachmentByDownloadLink(String downloadLink,
+            String mediaType) {
+        // TODO Close the InputStream after finish
+
+        Attachment attachment = confluenceContentService.getAttachmentByDownloadLink(downloadLink);
+        InputStreamResource resource = new InputStreamResource(attachment.getFileContent());
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Cache-Control", "no-cache, no-store, must-revalidate");
+        headers.add("Pragma", "no-cache");
+        headers.add("Expires", "0");
+
+        final Long fileSizeAsLong = Long.decode(attachment.getFileSize());
+
+        return ResponseEntity.ok()
+                .headers(headers)
+                .contentLength(fileSizeAsLong)
+                .contentType(MediaType.parseMediaType(mediaType))
+                .body(resource);
     }
 
     private AttachmentDto buildAttachmentDto(Attachment attachment) {

@@ -18,6 +18,8 @@
  */
 package com.lofidewanto.demo.server.domain;
 
+import java.io.InputStream;
+
 public class AttachmentImpl implements Attachment {
 
 	private String id;
@@ -25,6 +27,7 @@ public class AttachmentImpl implements Attachment {
 	private String downloadLink;
 	private String mediaType;
 	private String fileSize;
+	private InputStream fileContent;
 
 	@Override
 	public String getId() {
@@ -74,5 +77,15 @@ public class AttachmentImpl implements Attachment {
 	@Override
 	public void setFileSize(String fileSize) {
 		this.fileSize = fileSize;
+	}
+
+	@Override
+	public InputStream getFileContent() {
+		return fileContent;
+	}
+
+	@Override
+	public void setFileContent(InputStream fileContent) {
+		this.fileContent = fileContent;
 	}
 }
