@@ -155,7 +155,6 @@ public class DocsPanelView extends Composite implements Startable {
 
 	private void initTableColumns(DataGrid<AttachmentDto> dataGrid) {
 		dataGrid.setWidth("100%");
-		dataGrid.setHeight("300px");
 		dataGrid.setAutoHeaderRefreshDisabled(true);
 
 		// Title
