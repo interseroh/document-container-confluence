@@ -29,6 +29,7 @@ import org.mockito.Mock;
 
 import com.google.gwt.event.shared.EventBus;
 import com.google.gwtmockito.GwtMockitoTestRunner;
+import com.lofidewanto.demo.client.Messages;
 import com.lofidewanto.demo.client.common.ErrorFormatter;
 import com.lofidewanto.demo.client.common.LoadingMessagePopupPanel;
 import com.lofidewanto.demo.client.domain.ConfluenceContentClient;
@@ -64,11 +65,14 @@ public class DocsPanelViewTest {
 	@Mock
 	private Option mustardOption;
 
+	@Mock
+	private Messages messages;
+
 	@Before
 	public void setUp() throws Exception {
 		// CUT create
 		view = new DocsPanelView(eventBus, errorFormatter,
-				loadingMessagePopupPanel, confluenceContentClient);
+				loadingMessagePopupPanel, messages, confluenceContentClient);
 
 		// Create a spy on the view to mock view.runtimer()
 		view = spy(view);

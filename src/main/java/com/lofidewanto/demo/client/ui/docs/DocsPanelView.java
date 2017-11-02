@@ -31,7 +31,6 @@ import org.fusesource.restygwt.client.MethodCallback;
 import org.gwtbootstrap3.client.ui.Button;
 import org.gwtbootstrap3.client.ui.Label;
 import org.gwtbootstrap3.client.ui.Pagination;
-import org.gwtbootstrap3.client.ui.TabListItem;
 import org.gwtbootstrap3.client.ui.gwt.DataGrid;
 import org.gwtbootstrap3.extras.bootbox.client.Bootbox;
 
@@ -50,6 +49,7 @@ import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.view.client.ListDataProvider;
 import com.google.web.bindery.event.shared.binder.EventBinder;
 import com.google.web.bindery.event.shared.binder.EventHandler;
+import com.lofidewanto.demo.client.Messages;
 import com.lofidewanto.demo.client.common.ErrorFormatter;
 import com.lofidewanto.demo.client.common.LoadingMessagePopupPanel;
 import com.lofidewanto.demo.client.common.Startable;
@@ -74,18 +74,14 @@ public class DocsPanelView extends Composite implements Startable {
 
 	private final EventBus eventBus;
 
+	private final Messages messages;
+
 	private final ConfluenceContentClient confluenceContentClient;
 
 	private ListDataProvider<AttachmentDto> dataProviderList;
 
 	@UiField
 	Button refreshButton;
-
-	@UiField
-	TabListItem listTab;
-
-	@UiField
-	TabListItem searchTab;
 
 	@UiField
 	DataGrid<AttachmentDto> dataGrid1;
@@ -95,9 +91,11 @@ public class DocsPanelView extends Composite implements Startable {
 
 	@Inject
 	public DocsPanelView(EventBus eventbus, ErrorFormatter errorFormatter,
-			LoadingMessagePopupPanel loadingMessagePopupPanel, ConfluenceContentClient confluenceContentClient) {
+			LoadingMessagePopupPanel loadingMessagePopupPanel, Messages messages,
+			ConfluenceContentClient confluenceContentClient) {
 		initWidget(uiBinder.createAndBindUi(this));
 		this.eventBus = eventbus;
+		this.messages = messages;
 		eventBinder.bindEventHandlers(this, eventBus);
 
 		this.confluenceContentClient = confluenceContentClient;
@@ -156,25 +154,36 @@ public class DocsPanelView extends Composite implements Startable {
 		dataGrid.setWidth("100%");
 		dataGrid.setHeight("300px");
 		dataGrid.setAutoHeaderRefreshDisabled(true);
-		// Nick name.
-		Column<AttachmentDto, String> nicknameColumn = new Column<AttachmentDto, String>(new TextCell()) {
-			@Override
-			public String getValue(AttachmentDto object) {
-				return object.getTitle();
-			}
-		};
-		dataGrid.addColumn(nicknameColumn, "Title");
-		dataGrid.setColumnWidth(nicknameColumn, 40, Style.Unit.PCT);
 
-		// Nick name.
-		Column<AttachmentDto, String> nameColumn = new Column<AttachmentDto, String>(new TextCell()) {
+		// Title
+		Column<AttachmentDto, String> titleColumn = new Column<AttachmentDto, String>(new TextCell()) {
 			@Override
 			public String getValue(AttachmentDto object) {
 				return object.getTitle();
 			}
 		};
-		dataGrid.addColumn(nameColumn, "Download");
-		dataGrid.setColumnWidth(nameColumn, 40, Style.Unit.PCT);
+		dataGrid.addColumn(titleColumn, messages.table_title());
+		dataGrid.setColumnWidth(titleColumn, 40, Style.Unit.PCT);
+
+		// Media type
+		Column<AttachmentDto, String> contentTypeColumn = new Column<AttachmentDto, String>(new TextCell()) {
+			@Override
+			public String getValue(AttachmentDto object) {
+				return object.getMediaType();
+			}
+		};
+		dataGrid.addColumn(contentTypeColumn, messages.table_contentType());
+		dataGrid.setColumnWidth(contentTypeColumn, 40, Style.Unit.PCT);
+
+		// Download link
+		Column<AttachmentDto, String> downloadColumn = new Column<AttachmentDto, String>(new TextCell()) {
+			@Override
+			public String getValue(AttachmentDto object) {
+				return object.getDownloadLink();
+			}
+		};
+		dataGrid.addColumn(downloadColumn, messages.table_download());
+		dataGrid.setColumnWidth(downloadColumn, 40, Style.Unit.PCT);
 	}
 
 	private void initListDataProvider(DataGrid<AttachmentDto> dataGrid) {
@@ -182,12 +191,12 @@ public class DocsPanelView extends Composite implements Startable {
 		dataProviderList.addDataDisplay(dataGrid);
 
 		// Set the message to display when the table is empty.
-		dataGrid.setEmptyTableWidget(new Label("No Data"));
+		dataGrid.setEmptyTableWidget(new Label(messages.table_nodata()));
 	}
 
 	private void initFilterDataProvider(DataGrid<AttachmentDto> dataGrid) {
 		// Set the message to display when the table is empty.
-		dataGrid.setEmptyTableWidget(new Label("No Data"));
+		dataGrid.setEmptyTableWidget(new Label(messages.table_nodata()));
 	}
 
 	private void filterPerson() {
@@ -201,8 +210,6 @@ public class DocsPanelView extends Composite implements Startable {
 			@Override
 			public void onSuccess(Method method, List<AttachmentDto> persons) {
 				Bootbox.alert("Method call back is OK, first Person: " + persons.get(0).getTitle());
-				listTab.setActive(false);
-				searchTab.setActive(true);
 				refreshGrid(persons, dataProviderList);
 			}
 		};

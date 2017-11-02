@@ -61,28 +61,14 @@
 						<b:Heading size="H3" text="{i18n.content_heading}" />
 					</b:PanelHeader>
 					<b:PanelBody>
-						<b:NavTabs>
-							<b:TabListItem active="true" dataTarget="#listTab"
-								ui:field="listTab" text="{i18n.first_tab}" />
-							<b:TabListItem dataTarget="#searchTab" ui:field="searchTab"
-								text="{i18n.search_tab}" visible="true" />
-						</b:NavTabs>
-
-						<b:TabContent>
-							<b:TabPane ui:field="listTabPane" fade="true" in="true"
-								active="true" b:id="listTab">
-								<b:PanelBody ui:field="panelBody1">
-									<b.gwt:DataGrid bordered="true" condensed="true"
+						<b.gwt:DataGrid bordered="true" condensed="true"
 										width="100%" height="450px" striped="true" hover="true"
 										ui:field="dataGrid1" addStyleNames="{style.table-word-wrap}" />
-									<b:Pagination ui:field="dataGridPagination1" />
-								</b:PanelBody>
-								<b:ButtonToolBar addStyleNames="pull-right">
-									<b:Button type="SUCCESS" text="{i18n.button_update}"
-										ui:field="refreshButton"></b:Button>
-								</b:ButtonToolBar>
-							</b:TabPane>
-						</b:TabContent>
+						<b:Pagination ui:field="dataGridPagination1" />
+						<b:ButtonToolBar addStyleNames="pull-right">
+							<b:Button type="SUCCESS" text="{i18n.button_update}"
+									  ui:field="refreshButton"></b:Button>
+						</b:ButtonToolBar>
 					</b:PanelBody>
 				</b:Panel>
 			</b:Row>
