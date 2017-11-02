@@ -106,4 +106,19 @@ public class ConfluenceContentServiceImplTest {
 		assertEquals("All attachments", 3, allAttachments.size());
 	}
 
+	@Test
+	public void testBuildDownloadUri() throws MalformedURLException {
+		// Prepare
+		String downloadLink = "/download/attachments/98335/jojo.pdf?version=1&amp;modificationDate=1325853137007&amp;api=v2";
+		String url = confluenceUrl.concat(downloadLink);
+
+		// CUT
+		URI uri = confluenceContentService.buildDownloadUri(url);
+
+		// Verify
+		final String expected = confluenceUrl + downloadLink ;
+		assertEquals("URI", expected, uri.toURL().toString());
+
+	}
+
 }

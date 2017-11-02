@@ -105,8 +105,7 @@ public class ConfluenceContentServiceImpl implements ConfluenceContentService {
 	public Attachment getAttachmentByDownloadLink(String downloadLink) {
 		// Get InputStream from Confluence
 		String url = confluenceUrl.concat(downloadLink);
-		UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(url);
-		URI uri = builder.build().toUri();
+		URI uri = buildDownloadUri(url);
 
 		HttpHeaders headers = new HttpHeaders();
 		headers.set("Accept", MediaType.ALL_VALUE);
@@ -130,6 +129,11 @@ public class ConfluenceContentServiceImpl implements ConfluenceContentService {
 		attachment.setFileContent(responseInputStream);
 
 		return attachment;
+	}
+
+	URI buildDownloadUri(String url) {
+		UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(url);
+		return builder.build().toUri();
 	}
 
 }
