@@ -118,7 +118,6 @@ public class ConfluenceContentServiceImplTest {
 		// Verify
 		final String expected = confluenceUrl + downloadLink ;
 		assertEquals("URI", expected, uri.toURL().toString());
-
 	}
 
 }
