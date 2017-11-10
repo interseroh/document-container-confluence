@@ -21,6 +21,7 @@ package com.lofidewanto.demo.server.controller;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.lofidewanto.demo.shared.UrlCoding;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,15 +32,14 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import com.lofidewanto.demo.server.domain.Attachment;
 import com.lofidewanto.demo.server.service.content.ConfluenceContentService;
 import com.lofidewanto.demo.shared.AttachmentDto;
 import com.lofidewanto.demo.shared.DemoGwtServiceEndpoint;
+
+import static com.lofidewanto.demo.shared.DemoGwtServiceEndpoint.ATTACHMENT_DOWNLOAD;
 
 @Controller
 @CrossOrigin
@@ -58,6 +58,7 @@ public class ConfluenceContentController {
      */
     @RequestMapping(value = DemoGwtServiceEndpoint.ATTACHMENT_LIST, method = RequestMethod.GET)
     public @ResponseBody ResponseEntity<List<AttachmentDto>> getAllAttachments() {
+        logger.info("getAllAttachments...");
 
         final List<Attachment> allAttachments = confluenceContentService
                 .getAllAttachments();
@@ -80,13 +81,19 @@ public class ConfluenceContentController {
      * Get one attachment as Stream.
      *
      * @param downloadLink
+     * //@param mediaType
      * @return
      */
     @RequestMapping(value = DemoGwtServiceEndpoint.ATTACHMENT_DOWNLOAD, method = RequestMethod.GET)
-    public ResponseEntity<Resource> downloadAttachmentByDownloadLink(String downloadLink,
-            String mediaType) {
+    public @ResponseBody ResponseEntity<Resource> downloadAttachmentByDownloadLink(
+            @RequestParam(value="link") String downloadLink,
+            @RequestParam(value="mediatype", required=false) String mediaType) {
 
-        Attachment attachment = confluenceContentService.getAttachmentByDownloadLink(downloadLink);
+        UrlCoding urlCoding = new UrlCoding(downloadLink);
+        String downloadLinkDecoded = urlCoding.decode();
+        logger.info("link=" + downloadLinkDecoded);
+        logger.info("mediatype=" + mediaType);
+        Attachment attachment = confluenceContentService.getAttachmentByDownloadLink(downloadLinkDecoded);
         InputStreamResource resource = new InputStreamResource(attachment.getFileContent());
 
         HttpHeaders headers = new HttpHeaders();

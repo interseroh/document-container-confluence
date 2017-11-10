@@ -24,6 +24,7 @@ import java.net.URI;
 import java.util.Arrays;
 import java.util.List;
 
+import com.lofidewanto.demo.server.domain.attachments.AllAttachments;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -69,18 +70,25 @@ public class ConfluenceContentServiceImpl implements ConfluenceContentService {
 		String confluenceAttachmentList = DemoGwtServiceEndpoint.CONFLUENCE_ATTACHMENT_LIST;
 		String url = confluenceUrl.concat(confluenceAttachmentList);
 		URI uri = replacePageId(url);
+		MapAllAttachments mapAllAttachments = new MapAllAttachments();
 
 		HttpHeaders headers = new HttpHeaders();
 		headers.set("Accept", MediaType.APPLICATION_JSON_VALUE);
 
 		HttpEntity<?> entity = new HttpEntity<>(headers);
 
-		ResponseEntity<Attachment[]>attachmentsWithResponseEntity  =  restTemplate.exchange(uri,
-				HttpMethod.GET, entity, Attachment[].class);
+		logger.info("URI: " + uri.toString());
 
-		Attachment[] attachments = attachmentsWithResponseEntity.getBody();
+		//ResponseEntity<Attachment[]>attachmentsWithResponseEntity  =  restTemplate.exchange(uri,
+		//		HttpMethod.GET, entity, Attachment[].class);
 
-		return Arrays.asList(attachments);
+		ResponseEntity<AllAttachments> allAttachmentWithResponseEntiry = restTemplate.exchange(uri, HttpMethod.GET, entity, AllAttachments.class);
+
+		AllAttachments allAttachments = allAttachmentWithResponseEntiry.getBody();
+
+		List<Attachment> attachments = mapAllAttachments.mapAllAttachments2List(allAttachments);
+
+		return attachments;
 	}
 
 	URI replacePageId(String url) {
@@ -105,7 +113,6 @@ public class ConfluenceContentServiceImpl implements ConfluenceContentService {
 	public Attachment getAttachmentByDownloadLink(String downloadLink) {
 		// Get InputStream from Confluence
 		String url = confluenceUrl.concat(downloadLink);
-		URI uri = buildDownloadUri(url);
 
 		HttpHeaders headers = new HttpHeaders();
 		headers.set("Accept", MediaType.ALL_VALUE);
@@ -113,7 +120,7 @@ public class ConfluenceContentServiceImpl implements ConfluenceContentService {
 		HttpEntity<?> entity = new HttpEntity<>(headers);
 
 		// Tips: https://stackoverflow.com/questions/36379835/getting-inputstream-with-resttemplate
-		ResponseEntity<Resource> responseEntity = restTemplate.exchange(uri, HttpMethod.GET,
+		ResponseEntity<Resource> responseEntity = restTemplate.exchange(url, HttpMethod.GET,
 				entity, Resource.class);
 
 		InputStream responseInputStream;

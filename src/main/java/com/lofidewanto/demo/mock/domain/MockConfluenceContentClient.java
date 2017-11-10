@@ -46,14 +46,14 @@ public class MockConfluenceContentClient implements ConfluenceContentClient {
     private List<AttachmentDto> createAttachments() {
         // Create mock attachments
         AttachmentDto attach1 = new AttachmentDto();
-        attach1.setTitle("Document 1");
+        attach1.setTitle("Document Michael");
         attach1.setMediaType("PDF");
         attach1.setId("1");
         attach1.setFileSize("200");
         attach1.setDownloadLink("/download/attachments/98336/ayu.pdf?version=1&amp;modificationDate=1325853137007&amp;api=v2");
 
         AttachmentDto attach2 = new AttachmentDto();
-        attach2.setTitle("Document 2");
+        attach2.setTitle("Document Lofi");
         attach2.setMediaType("PDF");
         attach2.setId("2");
         attach2.setFileSize("200");

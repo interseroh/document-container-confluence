@@ -169,7 +169,7 @@ public class DocsPanelView extends Composite implements Startable {
 		confluenceContentClient.getAllAttachments(new MethodCallback<List<AttachmentDto>>() {
 			@Override
 			public void onFailure(Method method, Throwable throwable) {
-				logger.log(Level.SEVERE, "Error: " + throwable.getMessage());
+				logger.log(Level.SEVERE, "Error: " + throwable);
 			}
 
 			@Override

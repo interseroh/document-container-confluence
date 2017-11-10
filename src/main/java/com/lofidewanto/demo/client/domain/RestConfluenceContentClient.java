@@ -18,6 +18,7 @@
  */
 package com.lofidewanto.demo.client.domain;
 
+import java.io.InputStream;
 import java.util.List;
 
 import javax.inject.Singleton;
@@ -43,4 +44,5 @@ public interface RestConfluenceContentClient
 	@GET
 	@Path(DemoGwtServiceEndpoint.CONTEXT + DemoGwtServiceEndpoint.ATTACHMENT_LIST)
 	void getAllAttachments(MethodCallback<List<AttachmentDto>> callback);
+
 }

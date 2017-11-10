@@ -18,6 +18,7 @@
  */
 package com.lofidewanto.demo.client.domain;
 
+import java.io.InputStream;
 import java.util.List;
 
 import org.fusesource.restygwt.client.MethodCallback;
@@ -27,4 +28,5 @@ import com.lofidewanto.demo.shared.AttachmentDto;
 public interface ConfluenceContentClient {
 
     void getAllAttachments(MethodCallback<List<AttachmentDto>> callback);
+
 }

@@ -21,6 +21,9 @@ package com.lofidewanto.demo.client.ui.docs;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.user.client.Window;
+import com.lofidewanto.demo.shared.UrlCoding;
 import org.gwtbootstrap3.client.ui.constants.ButtonSize;
 import org.gwtbootstrap3.client.ui.constants.ButtonType;
 import org.gwtbootstrap3.client.ui.gwt.ButtonCell;
@@ -33,6 +36,8 @@ import com.google.gwt.dom.client.Style;
 import com.google.gwt.user.cellview.client.Column;
 import com.lofidewanto.demo.client.Messages;
 import com.lofidewanto.demo.shared.AttachmentDto;
+
+import static com.lofidewanto.demo.shared.DemoGwtServiceEndpoint.ATTACHMENT_DOWNLOAD;
 
 @Singleton
 public class DocsDataGrid {
@@ -70,6 +75,17 @@ public class DocsDataGrid {
 		dataGrid.addColumn(contentTypeColumn, messages.table_contentType());
 		dataGrid.setColumnWidth(contentTypeColumn, 40, Style.Unit.PCT);
 
+		// Size
+		Column<AttachmentDto, String> fileSizeColumn = new Column<AttachmentDto, String>(
+				new TextCell()) {
+			@Override
+			public String getValue(AttachmentDto object) {
+				return object.getFileSize();
+			}
+		};
+		dataGrid.addColumn(fileSizeColumn, messages.table_fileSize());
+		dataGrid.setColumnWidth(fileSizeColumn, 40, Style.Unit.PCT);
+
 		// Download link Button
 		Column<AttachmentDto, String> downloadColumn = new Column<AttachmentDto, String>(
 				new ButtonCell(ButtonType.INFO, ButtonSize.SMALL)) {
@@ -83,10 +99,17 @@ public class DocsDataGrid {
 
 		downloadColumn.setFieldUpdater(new FieldUpdater<AttachmentDto, String>() {
 			@Override
-			public void update(int index, AttachmentDto object, String value) {
+			public void update(int index, AttachmentDto attachmentDto, String value) {
 				// Download clicked
-				Bootbox.alert("Download clicked: " + object.getTitle() + " - "
-						+ object.getDownloadLink());
+				UrlCoding urlCoding = new UrlCoding(attachmentDto.getDownloadLink());
+				String baseUrl = GWT.getModuleBaseURL();
+				String url = baseUrl.substring(0, baseUrl.lastIndexOf("/demogwt/")) +
+							ATTACHMENT_DOWNLOAD +
+							"?link=" +
+							urlCoding.encode() +
+							"&mediatype=" +
+							attachmentDto.getMediaType();
+				Window.open( url, "_blank", "status=0,toolbar=0,menubar=0,location=0");
 			}
 		});
 	}
