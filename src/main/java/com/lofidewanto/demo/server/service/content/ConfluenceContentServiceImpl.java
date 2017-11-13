@@ -21,7 +21,6 @@ package com.lofidewanto.demo.server.service.content;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URI;
-import java.util.Arrays;
 import java.util.List;
 
 import com.lofidewanto.demo.server.domain.attachments.AllAttachments;

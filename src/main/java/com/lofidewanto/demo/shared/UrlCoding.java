@@ -1,5 +1,10 @@
 package com.lofidewanto.demo.shared;
 
+/**
+ * UrlCoding
+ * Klasse zum Codieren von URLs als String, ohne das Parameter verwendet werden
+ */
+
 public class UrlCoding {
 
     private String url;

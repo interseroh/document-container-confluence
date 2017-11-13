@@ -20,8 +20,10 @@ package com.lofidewanto.demo.server.service.content;
 
 import java.net.MalformedURLException;
 import java.net.URI;
+import java.util.ArrayList;
 import java.util.List;
 
+import com.lofidewanto.demo.server.domain.attachments.*;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -37,7 +39,6 @@ import org.springframework.test.util.ReflectionTestUtils;
 import org.springframework.web.client.RestTemplate;
 
 import com.lofidewanto.demo.server.domain.Attachment;
-import com.lofidewanto.demo.server.domain.AttachmentImpl;
 import com.lofidewanto.demo.shared.DemoGwtServiceEndpoint;
 
 import static org.mockito.Matchers.anyObject;
@@ -84,15 +85,20 @@ public class ConfluenceContentServiceImplTest {
 	@Test
 	public void testGetAllAttachments() {
 		// Prepare
-		Attachment[] attachments = new Attachment[3];
-		Attachment attach1 = new AttachmentImpl();
-		Attachment attach2 = new AttachmentImpl();
-		Attachment attach3 = new AttachmentImpl();
-		attachments[0] = attach1;
-		attachments[1] = attach2;
-		attachments[2] = attach3;
+		AllAttachments attachments = new AllAttachments();
+		Result attach1 = new Result("1", "application/pdf", "", "Hallo.pdf", new Metadata(), new Extensions(), new Links_(), new Expandable_());
+		Result attach2 = new Result("2", "application/pdf", "", "Hoppla.pdf", new Metadata(), new Extensions(), new Links_(), new Expandable_());
+		Result attach3 = new Result("3", "application/pdf", "", "Huch.pdf", new Metadata(), new Extensions(), new Links_(), new Expandable_());
 
-		ResponseEntity<Attachment[]> attachmentsWithResponseEntity = mock(ResponseEntity.class);
+		List<Result> resultList = new ArrayList<>();
+		resultList.add(attach1);
+		resultList.add(attach2);
+		resultList.add(attach3);
+
+		attachments.setResults(resultList);
+
+
+		ResponseEntity attachmentsWithResponseEntity = mock(ResponseEntity.class);
 		when(attachmentsWithResponseEntity.getBody()).thenReturn(attachments);
 
 		when(restTemplate.exchange(anyObject(),
