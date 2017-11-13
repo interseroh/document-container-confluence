@@ -471,4 +471,12 @@
         </profile>
 	</profiles>
 
+	<distributionManagement>
+		<repository>
+			<id>nexus</id>
+			<name>snapshots</name>
+			<url>http://nexus/repository/snapshots</url>
+		</repository>
+	</distributionManagement>
+
 </project>
