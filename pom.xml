@@ -475,7 +475,7 @@
 		<repository>
 			<id>nexus</id>
 			<name>snapshots</name>
-			<url>http://nexus/repository/snapshots</url>
+			<url>http://nexus-ep/repository/snapshots</url>
 		</repository>
 	</distributionManagement>
 
