@@ -103,7 +103,7 @@ public class DocsDataGrid {
 				// Download clicked
 				UrlCoding urlCoding = new UrlCoding(attachmentDto.getDownloadLink());
 				String baseUrl = GWT.getModuleBaseURL();
-				String url = baseUrl.substring(0, baseUrl.lastIndexOf("/demogwt/")) +
+				String url = baseUrl + //.substring(0, baseUrl.lastIndexOf("/demogwt/")) +
 							ATTACHMENT_DOWNLOAD +
 							"?link=" +
 							urlCoding.encode() +
