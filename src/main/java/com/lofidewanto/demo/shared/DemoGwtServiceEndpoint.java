@@ -22,8 +22,6 @@ public interface DemoGwtServiceEndpoint {
 
 	static final String GWT_REMOTE_LOGGING = "/demogwt/remote_logging";
 
-	static final String CONTEXT = "/demogwt";
-
 	static final String ATTACHMENT_LIST = "/v1/attachments";
 
 	static final String ATTACHMENT_DOWNLOAD = "/v1/attachments/download";

@@ -42,7 +42,7 @@ public interface RestConfluenceContentClient
 
 	@Override
 	@GET
-	@Path(DemoGwtServiceEndpoint.CONTEXT + DemoGwtServiceEndpoint.ATTACHMENT_LIST)
+	@Path(DemoGwtServiceEndpoint.ATTACHMENT_LIST)
 	void getAllAttachments(MethodCallback<List<AttachmentDto>> callback);
 
 }
