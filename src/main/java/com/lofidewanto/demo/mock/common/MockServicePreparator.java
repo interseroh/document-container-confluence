@@ -28,7 +28,7 @@ public class MockServicePreparator implements ServicePreparator {
             .getLogger(MockServicePreparator.class.getName());
 
     @Override
-    public void prepare() {
+    public void prepare(String baseUrl) {
         logger.info("MockServicePreparator prepare...");
     }
 }

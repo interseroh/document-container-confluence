@@ -39,7 +39,6 @@ import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.i18n.client.LocaleInfo;
 import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.ui.RootPanel;
-import com.lofidewanto.demo.client.common.ServicePreparator;
 import com.lofidewanto.demo.client.common.WidgetName;
 import com.lofidewanto.demo.client.ui.docs.DocsPanelView;
 import com.lofidewanto.demo.client.ui.main.MainPanelView;
@@ -60,17 +59,14 @@ public class DemoGwtWebApp {
 
 	private static final String LOCALE = "de_DE";
 
-    private final ServicePreparator servicePreparator;
-
     private final MainPanelView mainPanelView;
 
     private final DocsPanelView docsPanelView;
 
     @Inject
-	public DemoGwtWebApp(ServicePreparator servicePreparator, MainPanelView mainPanelView, DocsPanelView docsPanelView) {
+	public DemoGwtWebApp(MainPanelView mainPanelView, DocsPanelView docsPanelView) {
         logger.info("DemoGwtWebApp create...");
 
-        this.servicePreparator = servicePreparator;
         this.mainPanelView = mainPanelView;
         this.docsPanelView = docsPanelView;
 
@@ -104,8 +100,6 @@ public class DemoGwtWebApp {
 		setupHistory();
 		setupBootbox();
 
-        initServices();
-
 		GWT.runAsync(new RunAsyncCallback() {
 			@Override
 			public void onFailure(Throwable reason) {
@@ -116,21 +110,9 @@ public class DemoGwtWebApp {
 			public void onSuccess() {
 				createViews();
 				removeLoadingImage();
-
-                // Example calling JavaScript with JSNI - old style
-                // alert("Lofi Old Style...");
 			}
 		});
 	}
-
-	// @formatter:off
-	public native void alert(String msg) /*-{
-	    $wnd.alert(msg);
-
-        var myJavaScriptHello = new MyJavaScriptHello("Lofi");
-        console.log(myJavaScriptHello.click());
-	}-*/;
-	// @formatter:on
 
 	private void addMetaElements() {
 		logger.info("Add viewport");
@@ -151,10 +133,6 @@ public class DemoGwtWebApp {
         if(body.isOrHasChild(loading)){
             loading.removeFromParent();
         }
-	}
-
-	private void initServices() {
-		servicePreparator.prepare();
 	}
 
 	private void setupHistory() {

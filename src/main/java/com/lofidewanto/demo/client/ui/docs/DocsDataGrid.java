@@ -18,29 +18,32 @@
  */
 package com.lofidewanto.demo.client.ui.docs;
 
+import java.util.logging.Logger;
+
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
-import com.google.gwt.core.client.GWT;
-import com.google.gwt.user.client.Window;
-import com.lofidewanto.demo.shared.UrlCoding;
 import org.gwtbootstrap3.client.ui.constants.ButtonSize;
 import org.gwtbootstrap3.client.ui.constants.ButtonType;
 import org.gwtbootstrap3.client.ui.gwt.ButtonCell;
 import org.gwtbootstrap3.client.ui.gwt.DataGrid;
-import org.gwtbootstrap3.extras.bootbox.client.Bootbox;
 
 import com.google.gwt.cell.client.FieldUpdater;
 import com.google.gwt.cell.client.TextCell;
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.user.cellview.client.Column;
+import com.google.gwt.user.client.Window;
 import com.lofidewanto.demo.client.Messages;
 import com.lofidewanto.demo.shared.AttachmentDto;
+import com.lofidewanto.demo.shared.UrlCoding;
 
 import static com.lofidewanto.demo.shared.DemoGwtServiceEndpoint.ATTACHMENT_DOWNLOAD;
 
 @Singleton
 public class DocsDataGrid {
+
+	private static Logger logger = Logger.getLogger(DocsDataGrid.class.getName());
 
 	private final Messages messages;
 
@@ -102,13 +105,18 @@ public class DocsDataGrid {
 			public void update(int index, AttachmentDto attachmentDto, String value) {
 				// Download clicked
 				UrlCoding urlCoding = new UrlCoding(attachmentDto.getDownloadLink());
-				String baseUrl = GWT.getModuleBaseURL();
-				String url = baseUrl + //.substring(0, baseUrl.lastIndexOf("/demogwt/")) +
-							ATTACHMENT_DOWNLOAD +
-							"?link=" +
-							urlCoding.encode() +
-							"&mediatype=" +
+
+				String baseUrl = GWT.getHostPageBaseURL();
+				// Remove one slash
+				baseUrl = baseUrl.substring(0, baseUrl.length() - 1);
+
+				String url = baseUrl + 	ATTACHMENT_DOWNLOAD + "?link=" +
+							urlCoding.encode() + "&mediatype=" +
 							attachmentDto.getMediaType();
+
+				logger.info("Base URL: " + baseUrl);
+				logger.info("URL: " + url);
+
 				Window.open( url, "_blank", "status=0,toolbar=0,menubar=0,location=0");
 			}
 		});

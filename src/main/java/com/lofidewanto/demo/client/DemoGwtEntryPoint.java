@@ -22,12 +22,18 @@ import java.util.logging.Logger;
 
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.user.client.ui.RootPanel;
 import com.lofidewanto.demo.client.common.ServicePreparator;
+import com.lofidewanto.demo.shared.DemoGwtServiceEndpoint;
 
 public class DemoGwtEntryPoint implements EntryPoint {
 
     private static Logger logger = Logger
             .getLogger(DemoGwtEntryPoint.class.getName());
+
+    private static final String INTEGRATION_AREA_ID = "entsorgerportal_integration_area";
+
+    private static final String ATTRIBUTE_BASE_URL_INTEGRATION = "data-baseurl_integration";
 
     // Create Gin Injector
     private final DemoGwtWebAppGinjector injector = GWT
@@ -35,14 +41,27 @@ public class DemoGwtEntryPoint implements EntryPoint {
 
     @Override
     public void onModuleLoad() {
-        logger.info("DemoGwtEntryPoint obModuleLoad...");
+        logger.info("DemoGwtEntryPoint onModuleLoad...");
 
         // We need to prepare the services with RestyGwt before...
+        RootPanel integrationArea = getWidgets(INTEGRATION_AREA_ID);
+        String baseUrl = DemoGwtServiceEndpoint.GWT_CONTEXT;
+        if (integrationArea != null) {
+            baseUrl = integrationArea.getElement()
+                    .getAttribute(ATTRIBUTE_BASE_URL_INTEGRATION);
+        }
+
+        logger.info("Base URL: " + baseUrl);
+
         ServicePreparator servicePreparator = injector.getServicePreparator();
-        servicePreparator.prepare();
+        servicePreparator.prepare(baseUrl);
 
         // Create webapp
         DemoGwtWebApp demoGwtWebApp = injector.getDemoGwtWebApp();
+    }
+
+    private RootPanel getWidgets(String element) {
+        return RootPanel.get(element);
     }
 
 }

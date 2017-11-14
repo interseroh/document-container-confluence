@@ -23,10 +23,11 @@ import java.util.logging.Logger;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
-import com.lofidewanto.demo.client.domain.RestConfluenceContentClient;
 import org.fusesource.restygwt.client.Defaults;
 import org.fusesource.restygwt.client.Resource;
 import org.fusesource.restygwt.client.RestServiceProxy;
+
+import com.lofidewanto.demo.client.domain.RestConfluenceContentClient;
 
 @Singleton
 public class RestServicePreparator implements ServicePreparator {
@@ -42,18 +43,18 @@ public class RestServicePreparator implements ServicePreparator {
     }
 
     @Override
-    public void prepare() {
+    public void prepare(String baseUrl) {
         logger.info("Prepare for the resources for the services...");
 
-        initServices();
+        initServices(baseUrl);
     }
 
-	private void initServices() {
+	private void initServices(String baseUrl) {
 		Defaults.setDateFormat(null);
 
 		logger.info("Init the domains...");
 
-		Resource resource = new Resource("");
+		Resource resource = new Resource(baseUrl);
 
 		((RestServiceProxy) restConfluenceContentClient).setResource(resource);
 	}

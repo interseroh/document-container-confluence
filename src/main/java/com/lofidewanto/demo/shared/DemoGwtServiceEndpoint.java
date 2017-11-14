@@ -20,12 +20,14 @@ package com.lofidewanto.demo.shared;
 
 public interface DemoGwtServiceEndpoint {
 
-	static final String GWT_REMOTE_LOGGING = "/demogwt/remote_logging";
+	String GWT_REMOTE_LOGGING = "/remote_logging";
 
-	static final String ATTACHMENT_LIST = "/v1/attachments";
+	String GWT_CONTEXT = "/demogwt";
 
-	static final String ATTACHMENT_DOWNLOAD = "/v1/attachments/download";
+	String ATTACHMENT_LIST = "/v1/attachments";
 
-	static final String CONFLUENCE_ATTACHMENT_LIST = "/rest/api/content/{pageId}/child/attachment";
+	String ATTACHMENT_DOWNLOAD = "/v1/attachments/download";
+
+	String CONFLUENCE_ATTACHMENT_LIST = "/rest/api/content/{pageId}/child/attachment";
 
 }
