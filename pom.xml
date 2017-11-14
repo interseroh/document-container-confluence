@@ -480,5 +480,4 @@
 			<url>http://nexus-ep/repository/snapshots</url>
 		</repository>
 	</distributionManagement>
-
 </project>
