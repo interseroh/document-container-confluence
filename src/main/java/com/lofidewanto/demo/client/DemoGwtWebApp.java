@@ -53,8 +53,6 @@ public class DemoGwtWebApp {
 
 	private static final String HOST_LOADING_IMAGE = "loadingImage";
 
-	private static final String HOST_MAIN_PANEL = "mainPanel";
-
 	private static final String HISTORY_MAIN = "main";
 
 	private static final String LOCALE = "de_DE";
