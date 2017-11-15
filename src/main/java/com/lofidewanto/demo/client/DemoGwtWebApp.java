@@ -100,18 +100,8 @@ public class DemoGwtWebApp {
 		setupHistory();
 		setupBootbox();
 
-		GWT.runAsync(new RunAsyncCallback() {
-			@Override
-			public void onFailure(Throwable reason) {
-				logger.info("Error on Async!");
-			}
-
-			@Override
-			public void onSuccess() {
-				createViews();
-				removeLoadingImage();
-			}
-		});
+		createViews();
+		removeLoadingImage();
 	}
 
 	private void addMetaElements() {
