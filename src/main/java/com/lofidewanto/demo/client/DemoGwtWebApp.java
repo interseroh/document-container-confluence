@@ -39,9 +39,7 @@ import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.i18n.client.LocaleInfo;
 import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.ui.RootPanel;
-import com.lofidewanto.demo.client.common.WidgetName;
 import com.lofidewanto.demo.client.ui.docs.DocsPanelView;
-import com.lofidewanto.demo.client.ui.main.MainPanelView;
 
 @Singleton
 public class DemoGwtWebApp {
@@ -57,15 +55,12 @@ public class DemoGwtWebApp {
 
 	private static final String LOCALE = "de_DE";
 
-    private final MainPanelView mainPanelView;
-
     private final DocsPanelView docsPanelView;
 
     @Inject
-	public DemoGwtWebApp(MainPanelView mainPanelView, DocsPanelView docsPanelView) {
+	public DemoGwtWebApp(DocsPanelView docsPanelView) {
         logger.info("DemoGwtWebApp create...");
 
-        this.mainPanelView = mainPanelView;
         this.docsPanelView = docsPanelView;
 
         injectJqueryScript();
@@ -152,13 +147,8 @@ public class DemoGwtWebApp {
 		// Views
 		logger.info("Create Views begins...");
 
-		mainPanelView.setContentAreaVisible(false);
-		mainPanelView.addWidget(WidgetName.PERSONLIST, docsPanelView);
-
-		mainPanelView.setContentAreaVisible(true);
-		mainPanelView.updatePersonPanelView();
-
-		RootPanel.get().add(mainPanelView);
+		docsPanelView.init();
+		RootPanel.get().add(docsPanelView);
 
 		logger.info("Create Views ends...");
 	}
