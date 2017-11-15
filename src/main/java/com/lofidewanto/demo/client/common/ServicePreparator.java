@@ -21,4 +21,6 @@ package com.lofidewanto.demo.client.common;
 public interface ServicePreparator {
 
     void prepare(String baseUrl);
+
+    String getBaseUrl();
 }

@@ -30,11 +30,11 @@ import org.gwtbootstrap3.client.ui.gwt.DataGrid;
 
 import com.google.gwt.cell.client.FieldUpdater;
 import com.google.gwt.cell.client.TextCell;
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.user.cellview.client.Column;
 import com.google.gwt.user.client.Window;
 import com.lofidewanto.demo.client.Messages;
+import com.lofidewanto.demo.client.common.ServicePreparator;
 import com.lofidewanto.demo.shared.AttachmentDto;
 import com.lofidewanto.demo.shared.UrlCoding;
 
@@ -47,9 +47,12 @@ public class DocsDataGrid {
 
 	private final Messages messages;
 
+	private final ServicePreparator servicePreparator;
+
 	@Inject
-	public DocsDataGrid(Messages messages) {
+	public DocsDataGrid(Messages messages, ServicePreparator servicePreparator) {
 		this.messages = messages;
+		this.servicePreparator = servicePreparator;
 	}
 
 	void initTableColumns(DataGrid<AttachmentDto> dataGrid) {
@@ -106,9 +109,7 @@ public class DocsDataGrid {
 				// Download clicked
 				UrlCoding urlCoding = new UrlCoding(attachmentDto.getDownloadLink());
 
-				String baseUrl = GWT.getHostPageBaseURL();
-				// Remove one slash
-				baseUrl = baseUrl.substring(0, baseUrl.length() - 1);
+				String baseUrl = servicePreparator.getBaseUrl();
 
 				String url = baseUrl + 	ATTACHMENT_DOWNLOAD + "?link=" +
 							urlCoding.encode() + "&mediatype=" +
