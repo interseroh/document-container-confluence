@@ -47,9 +47,12 @@ public class DocsDataGrid {
 
 	private final Messages messages;
 
+	private final BaseUrlDocDownloadService baseUrlDocDownloadService;
+
 	@Inject
-	public DocsDataGrid(Messages messages) {
+	public DocsDataGrid(Messages messages, BaseUrlDocDownloadService baseUrlDocDownloadService) {
 		this.messages = messages;
+		this.baseUrlDocDownloadService = baseUrlDocDownloadService;
 	}
 
 	void initTableColumns(DataGrid<AttachmentDto> dataGrid) {
@@ -106,9 +109,7 @@ public class DocsDataGrid {
 				// Download clicked
 				UrlCoding urlCoding = new UrlCoding(attachmentDto.getDownloadLink());
 
-				String baseUrl = GWT.getHostPageBaseURL();
-				// Remove one slash
-				baseUrl = baseUrl.substring(0, baseUrl.length() - 1);
+				String baseUrl = baseUrlDocDownloadService.getBaseUrl();
 
 				String url = baseUrl + 	ATTACHMENT_DOWNLOAD + "?link=" +
 							urlCoding.encode() + "&mediatype=" +

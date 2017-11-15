@@ -24,6 +24,7 @@ import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.lofidewanto.demo.client.common.ServicePreparator;
+import com.lofidewanto.demo.client.ui.docs.BaseUrlDocDownloadService;
 import com.lofidewanto.demo.shared.DemoGwtServiceEndpoint;
 
 public class DemoGwtEntryPoint implements EntryPoint {
@@ -55,6 +56,10 @@ public class DemoGwtEntryPoint implements EntryPoint {
 
         ServicePreparator servicePreparator = injector.getServicePreparator();
         servicePreparator.prepare(baseUrl);
+
+        // Save baseUrl
+        BaseUrlDocDownloadService baseUrlDocDownloadService = injector.getBaseUrlDocDownloadService();
+        baseUrlDocDownloadService.setBaseUrl(baseUrl);
 
         // Create webapp
         DemoGwtWebApp demoGwtWebApp = injector.getDemoGwtWebApp();

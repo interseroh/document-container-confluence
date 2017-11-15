@@ -21,6 +21,7 @@ package com.lofidewanto.demo.client;
 import com.google.gwt.inject.client.GinModules;
 import com.google.gwt.inject.client.Ginjector;
 import com.lofidewanto.demo.client.common.ServicePreparator;
+import com.lofidewanto.demo.client.ui.docs.BaseUrlDocDownloadService;
 
 @GinModules(DemoGwtWebAppGinModule.class)
 public interface DemoGwtWebAppGinjector extends Ginjector {
@@ -28,5 +29,7 @@ public interface DemoGwtWebAppGinjector extends Ginjector {
 	DemoGwtWebApp getDemoGwtWebApp();
 
 	ServicePreparator getServicePreparator();
+
+	BaseUrlDocDownloadService getBaseUrlDocDownloadService();
 
 }
