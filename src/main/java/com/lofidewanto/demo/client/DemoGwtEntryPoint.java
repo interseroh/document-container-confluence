@@ -45,7 +45,7 @@ public class DemoGwtEntryPoint implements EntryPoint {
 
         // We need to prepare the services with RestyGwt before...
         RootPanel integrationArea = getWidgets(INTEGRATION_AREA_ID);
-        String baseUrl = DemoGwtServiceEndpoint.GWT_CONTEXT;
+        String baseUrl = DemoGwtServiceEndpoint.SERVER_CONTEXT_PATH;
         if (integrationArea != null) {
             baseUrl = integrationArea.getElement()
                     .getAttribute(ATTRIBUTE_BASE_URL_INTEGRATION);
