@@ -100,8 +100,18 @@ public class DemoGwtWebApp {
 		setupHistory();
 		setupBootbox();
 
-		createViews();
-		removeLoadingImage();
+		GWT.runAsync(new RunAsyncCallback() {
+			@Override
+			public void onFailure(Throwable reason) {
+				logger.info("Error on Async!");
+			}
+
+			@Override
+			public void onSuccess() {
+				createViews();
+				removeLoadingImage();
+			}
+		});
 	}
 
 	private void addMetaElements() {
@@ -150,7 +160,7 @@ public class DemoGwtWebApp {
 		mainPanelView.setContentAreaVisible(true);
 		mainPanelView.updatePersonPanelView();
 
-		RootPanel.get(HOST_MAIN_PANEL).add(mainPanelView);
+		RootPanel.get().add(mainPanelView);
 
 		logger.info("Create Views ends...");
 	}
