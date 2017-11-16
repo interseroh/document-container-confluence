@@ -55,24 +55,28 @@
 	<b:Container fluid="true">
 		<b:Row b:id="applicationViewArea">
 			<b:Column size="MD_12">
-				<b:Row>
-					<!-- Content Panel -->
-					<b:Panel addStyleNames="{style.panel-main}">
-						<b:PanelHeader>
-							<b:Heading size="H6" text="{i18n.content_heading}" />
-						</b:PanelHeader>
-						<b:PanelBody>
-							<b.gwt:DataGrid bordered="true" condensed="true"
-											width="100%" height="300px" striped="true" hover="true"
-											ui:field="dataGrid1" addStyleNames="{style.table-word-wrap}" />
-							<b:Pagination ui:field="dataGridPagination1" />
-							<b:ButtonToolBar addStyleNames="pull-right">
-								<b:Button type="SUCCESS" text="{i18n.button_update}"
-										  ui:field="refreshButton"></b:Button>
-							</b:ButtonToolBar>
-						</b:PanelBody>
-					</b:Panel>
-				</b:Row>
+				<!-- Content Panel -->
+				<b:Panel addStyleNames="{style.panel-main}">
+					<b:PanelHeader>
+						<b:Heading size="H6" text="{i18n.content_heading}" />
+					</b:PanelHeader>
+					<b:PanelBody>
+						<b:Container fluid="true">
+							<b:Row>
+								<b:Column size="MD_12">
+									<b.gwt:DataGrid bordered="true" condensed="true"
+													width="100%" height="300px" striped="true" hover="true"
+													ui:field="dataGrid1" addStyleNames="{style.table-word-wrap}" />
+									<b:Pagination ui:field="dataGridPagination1" />
+									<b:ButtonToolBar addStyleNames="pull-right">
+										<b:Button type="SUCCESS" text="{i18n.button_update}"
+												  ui:field="refreshButton"></b:Button>
+									</b:ButtonToolBar>
+								</b:Column>
+							</b:Row>
+						</b:Container>
+					</b:PanelBody>
+				</b:Panel>
 			</b:Column>
 		</b:Row>
 	</b:Container>
