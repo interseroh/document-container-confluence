@@ -40,6 +40,7 @@ import com.google.gwt.i18n.client.LocaleInfo;
 import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.lofidewanto.demo.client.ui.docs.DocsPanelView;
+import com.lofidewanto.demo.shared.DemoGwtServiceEndpoint;
 
 @Singleton
 public class DemoGwtWebApp {
@@ -102,9 +103,28 @@ public class DemoGwtWebApp {
 			@Override
 			public void onSuccess() {
 				createViews();
+
+				clearIntegrationArea();
+
 				removeLoadingImage();
 			}
 		});
+	}
+
+	private void clearIntegrationArea() {
+		RootPanel integrationArea = getWidgets(DemoGwtServiceEndpoint.INTEGRATION_AREA_ID);
+		if (integrationArea != null) {
+			RootPanel appViewArea = getWidgets(DemoGwtServiceEndpoint.APP_VIEW_AREA_ID);
+			if (appViewArea != null) {
+				appViewArea.removeFromParent();
+				integrationArea.clear();
+				integrationArea.add(appViewArea);
+			}
+		}
+	}
+
+	private RootPanel getWidgets(String element) {
+		return RootPanel.get(element);
 	}
 
 	private void addMetaElements() {

@@ -31,12 +31,6 @@ public class DemoGwtEntryPoint implements EntryPoint {
     private static Logger logger = Logger
             .getLogger(DemoGwtEntryPoint.class.getName());
 
-    private static final String INTEGRATION_AREA_ID = "entsorgerportal_integration_area";
-
-    private static final String ATTRIBUTE_BASE_URL_INTEGRATION = "data-baseurl_integration";
-
-    private static final String APP_VIEW_AREA_ID = "applicationViewArea";
-
     // Create Gin Injector
     private final DemoGwtWebAppGinjector injector = GWT
             .create(DemoGwtWebAppGinjector.class);
@@ -56,18 +50,11 @@ public class DemoGwtEntryPoint implements EntryPoint {
 
     private String loadIntegrationArea() {
         // Prepare for integration area
-        RootPanel integrationArea = getWidgets(INTEGRATION_AREA_ID);
+        RootPanel integrationArea = getWidgets(DemoGwtServiceEndpoint.INTEGRATION_AREA_ID);
         String baseUrl = DemoGwtServiceEndpoint.SERVER_CONTEXT_PATH;
         if (integrationArea != null) {
             baseUrl = integrationArea.getElement()
-                    .getAttribute(ATTRIBUTE_BASE_URL_INTEGRATION);
-
-            RootPanel appViewArea = getWidgets(APP_VIEW_AREA_ID);
-            if (appViewArea != null) {
-                appViewArea.removeFromParent();
-                integrationArea.clear();
-                integrationArea.add(appViewArea);
-            }
+                    .getAttribute(DemoGwtServiceEndpoint.ATTRIBUTE_BASE_URL_INTEGRATION);
         }
 
         logger.info("Base URL: " + baseUrl);
