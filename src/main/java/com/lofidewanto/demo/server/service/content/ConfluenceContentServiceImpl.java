@@ -39,7 +39,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import com.lofidewanto.demo.server.domain.Attachment;
 import com.lofidewanto.demo.server.domain.AttachmentImpl;
-import com.lofidewanto.demo.server.domain.attachments.AllAttachments;
+import com.lofidewanto.demo.server.domain.AllAttachments;
 import com.lofidewanto.demo.shared.DemoGwtServiceEndpoint;
 
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;

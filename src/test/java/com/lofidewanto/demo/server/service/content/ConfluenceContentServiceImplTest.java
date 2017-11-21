@@ -23,7 +23,13 @@ import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.lofidewanto.demo.server.domain.attachments.*;
+import com.lofidewanto.demo.server.domain.AllAttachments;
+import com.lofidewanto.demo.server.domain.Expandable_;
+import com.lofidewanto.demo.server.domain.Extensions;
+import com.lofidewanto.demo.server.domain.Links_;
+import com.lofidewanto.demo.server.domain.Metadata;
+import com.lofidewanto.demo.server.domain.Result;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;

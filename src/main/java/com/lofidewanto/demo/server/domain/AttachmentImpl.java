@@ -20,6 +20,9 @@ package com.lofidewanto.demo.server.domain;
 
 import java.io.InputStream;
 
+/**
+ * This Attachment class is not used at the moment.
+ */
 public class AttachmentImpl implements Attachment {
 
 	private String id;

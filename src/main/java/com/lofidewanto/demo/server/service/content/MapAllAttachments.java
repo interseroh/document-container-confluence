@@ -2,11 +2,9 @@ package com.lofidewanto.demo.server.service.content;
 
 import com.lofidewanto.demo.server.domain.Attachment;
 import com.lofidewanto.demo.server.domain.AttachmentImpl;
-import com.lofidewanto.demo.server.domain.attachments.AllAttachments;
-import com.lofidewanto.demo.server.domain.attachments.Result;
+import com.lofidewanto.demo.server.domain.AllAttachments;
+import com.lofidewanto.demo.server.domain.Result;
 
-import java.io.InputStream;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 

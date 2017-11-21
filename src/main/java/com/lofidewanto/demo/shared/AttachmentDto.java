@@ -25,6 +25,7 @@ public class AttachmentDto {
 	private String downloadLink;
 	private String mediaType;
 	private String fileSize;
+	private String version;
 
 	public String getId() {
 		return id;
@@ -64,6 +65,14 @@ public class AttachmentDto {
 
 	public void setFileSize(String fileSize) {
 		this.fileSize = fileSize;
+	}
+
+	public String getVersion() {
+		return version;
+	}
+
+	public void setVersion(String version) {
+		this.version = version;
 	}
 
 }
