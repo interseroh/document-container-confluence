@@ -23,13 +23,6 @@ import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.lofidewanto.demo.server.domain.AllAttachments;
-import com.lofidewanto.demo.server.domain.Expandable_;
-import com.lofidewanto.demo.server.domain.Extensions;
-import com.lofidewanto.demo.server.domain.Links_;
-import com.lofidewanto.demo.server.domain.Metadata;
-import com.lofidewanto.demo.server.domain.Result;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -44,7 +37,14 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.test.util.ReflectionTestUtils;
 import org.springframework.web.client.RestTemplate;
 
+import com.lofidewanto.demo.server.domain.AllAttachments;
 import com.lofidewanto.demo.server.domain.Attachment;
+import com.lofidewanto.demo.server.domain.AttachmentImpl;
+import com.lofidewanto.demo.server.domain.Expandable_;
+import com.lofidewanto.demo.server.domain.Extensions;
+import com.lofidewanto.demo.server.domain.Links_;
+import com.lofidewanto.demo.server.domain.Metadata;
+import com.lofidewanto.demo.server.domain.Result;
 import com.lofidewanto.demo.shared.DemoGwtServiceEndpoint;
 
 import static org.mockito.Matchers.anyObject;
@@ -62,6 +62,9 @@ public class ConfluenceContentServiceImplTest {
 
 	@Mock
 	private RestTemplate restTemplate;
+
+	@Mock
+	private MapAllAttachments mapAllAttachments;
 
 	private String confluenceUrl = "http://confluence:8080";
 
@@ -103,13 +106,31 @@ public class ConfluenceContentServiceImplTest {
 
 		attachments.setResults(resultList);
 
-
 		ResponseEntity attachmentsWithResponseEntity = mock(ResponseEntity.class);
 		when(attachmentsWithResponseEntity.getBody()).thenReturn(attachments);
 
 		when(restTemplate.exchange(anyObject(),
 				eq(HttpMethod.GET), Matchers.<HttpEntity<?>>any(),
 				Matchers.<Class<Attachment[]>>any())).thenReturn(attachmentsWithResponseEntity);
+
+		Attachment attachment1 = new AttachmentImpl();
+		attachment1.setId(attach1.getId());
+		attachment1.setTitle(attach1.getTitle());
+
+		Attachment attachment2 = new AttachmentImpl();
+		attachment2.setId(attach1.getId());
+		attachment2.setTitle(attach1.getTitle());
+
+		Attachment attachment3 = new AttachmentImpl();
+		attachment3.setId(attach1.getId());
+		attachment3.setTitle(attach1.getTitle());
+
+		List<Attachment> attachmentList = new ArrayList<>();
+		attachmentList.add(attachment1);
+		attachmentList.add(attachment2);
+		attachmentList.add(attachment3);
+
+		when(mapAllAttachments.mapAllAttachments2List(anyObject())).thenReturn(attachmentList);
 
 		// CUT
 		List<Attachment> allAttachments = confluenceContentService.getAllAttachments();
