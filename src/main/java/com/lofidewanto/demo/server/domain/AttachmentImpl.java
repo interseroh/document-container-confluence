@@ -21,7 +21,7 @@ package com.lofidewanto.demo.server.domain;
 import java.io.InputStream;
 
 /**
- * This Attachment class is not used at the moment.
+ * This Attachment class is used to map from Confluence attachment object.
  */
 public class AttachmentImpl implements Attachment {
 
@@ -31,6 +31,8 @@ public class AttachmentImpl implements Attachment {
 	private String mediaType;
 	private String fileSize;
 	private InputStream fileContent;
+	private String version;
+	private String comment;
 
 	@Override
 	public String getId() {
@@ -90,5 +92,25 @@ public class AttachmentImpl implements Attachment {
 	@Override
 	public void setFileContent(InputStream fileContent) {
 		this.fileContent = fileContent;
+	}
+
+	@Override
+	public String getVersion() {
+		return version;
+	}
+
+	@Override
+	public void setVersion(String version) {
+		this.version = version;
+	}
+
+	@Override
+	public String getComment() {
+		return comment;
+	}
+
+	@Override
+	public void setComment(String comment) {
+		this.comment = comment;
 	}
 }

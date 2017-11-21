@@ -64,7 +64,11 @@ public class DocsDataGrid {
 				new TextCell()) {
 			@Override
 			public String getValue(AttachmentDto object) {
-				return object.getTitle();
+				if (object.getComment() != null && !object.getComment().equals("")) {
+					return object.getComment();
+				} else {
+					return object.getTitle();
+				}
 			}
 		};
 		dataGrid.addColumn(titleColumn, messages.table_title());
@@ -79,18 +83,18 @@ public class DocsDataGrid {
 			}
 		};
 		dataGrid.addColumn(contentTypeColumn, messages.table_contentType());
-		dataGrid.setColumnWidth(contentTypeColumn, 40, Style.Unit.PCT);
+		dataGrid.setColumnWidth(contentTypeColumn, 30, Style.Unit.PCT);
 
-		// Size
-		Column<AttachmentDto, String> fileSizeColumn = new Column<AttachmentDto, String>(
+		// Version
+		Column<AttachmentDto, String> versionColumn = new Column<AttachmentDto, String>(
 				new TextCell()) {
 			@Override
 			public String getValue(AttachmentDto object) {
-				return object.getFileSize();
+				return object.getVersion();
 			}
 		};
-		dataGrid.addColumn(fileSizeColumn, messages.table_fileSize());
-		dataGrid.setColumnWidth(fileSizeColumn, 40, Style.Unit.PCT);
+		dataGrid.addColumn(versionColumn, messages.table_version());
+		dataGrid.setColumnWidth(versionColumn, 10, Style.Unit.PCT);
 
 		// Download link Button
 		Column<AttachmentDto, String> downloadColumn = new Column<AttachmentDto, String>(
@@ -101,7 +105,7 @@ public class DocsDataGrid {
 			}
 		};
 		dataGrid.addColumn(downloadColumn, messages.table_download());
-		dataGrid.setColumnWidth(downloadColumn, 40, Style.Unit.PCT);
+		dataGrid.setColumnWidth(downloadColumn, 20, Style.Unit.PCT);
 
 		downloadColumn.setFieldUpdater(new FieldUpdater<AttachmentDto, String>() {
 			@Override

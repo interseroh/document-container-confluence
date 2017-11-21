@@ -55,6 +55,9 @@ public class ConfluenceContentServiceImpl implements ConfluenceContentService {
 	@Autowired
 	private RestTemplate restTemplate;
 
+	@Autowired
+	private MapAllAttachments mapAllAttachments;
+
 	@Value("${confluence.url}")
 	private String confluenceUrl;
 
@@ -67,7 +70,6 @@ public class ConfluenceContentServiceImpl implements ConfluenceContentService {
 		String confluenceAttachmentList = DemoGwtServiceEndpoint.CONFLUENCE_ATTACHMENT_LIST;
 		String url = confluenceUrl.concat(confluenceAttachmentList);
 		URI uri = replacePageId(url);
-		MapAllAttachments mapAllAttachments = new MapAllAttachments();
 
 		HttpHeaders headers = new HttpHeaders();
 		headers.set("Accept", MediaType.APPLICATION_JSON_VALUE);
