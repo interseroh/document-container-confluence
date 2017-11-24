@@ -80,9 +80,6 @@ public class DocsPanelView extends Composite implements Startable {
 	private final DocsDataGrid docsDataGrid;
 
 	@UiField
-	Button refreshButton;
-
-	@UiField
 	DataGrid<AttachmentDto> dataGrid1;
 
 	@UiField
@@ -99,43 +96,25 @@ public class DocsPanelView extends Composite implements Startable {
 
 		this.confluenceContentClient = confluenceContentClient;
 		this.docsDataGrid = docsDataGrid;
+
+		initContent();
 	}
 
 	@Override
 	public void start() {
-
 	}
 
 	@Override
 	public void init() {
+	}
+
+	private void initContent() {
 		logger.info("DocsPanelView created...");
 
 		initListDataProvider(dataGrid1);
 		docsDataGrid.initTableColumns(dataGrid1);
 
 		getDocuments();
-	}
-
-	@UiHandler("refreshButton")
-	public void onButtonClick(final ClickEvent event) {
-		getDocuments();
-	}
-
-	boolean runTimerRefreshButton() {
-		// This is a GWT timer implementation so you won't see this running in Java!
-		new Timer() {
-			@Override
-			public void run() {
-				runTimerRefreshButtonExecutor();
-			}
-		}.schedule(5000);
-
-		return true;
-	}
-
-	void runTimerRefreshButtonExecutor() {
-		refreshButton.setEnabled(true);
-		logger.info("Enable the button again...");
 	}
 
 	private void initListDataProvider(DataGrid<AttachmentDto> dataGrid) {

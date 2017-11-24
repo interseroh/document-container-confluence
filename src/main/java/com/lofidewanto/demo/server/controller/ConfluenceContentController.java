@@ -89,12 +89,15 @@ public class ConfluenceContentController {
     @RequestMapping(value = DemoGwtServiceEndpoint.ATTACHMENT_DOWNLOAD, method = RequestMethod.GET)
     public @ResponseBody ResponseEntity<Resource> downloadAttachmentByDownloadLink(
             @RequestParam(value="link") String downloadLink,
-            @RequestParam(value="mediatype", required=false) String mediaType) {
+            @RequestParam(value="mediatype", required=false) String mediaType,
+            @RequestParam(value="filename") String title) {
 
         UrlCoding urlCoding = new UrlCoding(downloadLink);
         String downloadLinkDecoded = urlCoding.decode();
+        String fileName ="\"" + title + "\"";
         logger.info("link=" + downloadLinkDecoded);
         logger.info("mediatype=" + mediaType);
+        logger.info("filename=" + title);
         Attachment attachment = confluenceContentService.getAttachmentByDownloadLink(downloadLinkDecoded);
         InputStreamResource resource = new InputStreamResource(attachment.getFileContent());
 
@@ -102,6 +105,7 @@ public class ConfluenceContentController {
         headers.add("Cache-Control", "no-cache, no-store, must-revalidate");
         headers.add("Pragma", "no-cache");
         headers.add("Expires", "0");
+        headers.add("Content-Disposition", "attachment;filename=" + fileName);
 
         final Long fileSizeAsLong = Long.decode(attachment.getFileSize());
 

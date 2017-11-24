@@ -45,14 +45,17 @@ public class DocsDataGrid {
 
 	private static Logger logger = Logger.getLogger(DocsDataGrid.class.getName());
 
+	private MapMediaType mapMediaType;
+
 	private final Messages messages;
 
 	private final ServicePreparator servicePreparator;
 
 	@Inject
-	public DocsDataGrid(Messages messages, ServicePreparator servicePreparator) {
+	public DocsDataGrid(Messages messages, ServicePreparator servicePreparator, MapMediaType mapMediaType) {
 		this.messages = messages;
 		this.servicePreparator = servicePreparator;
+		this.mapMediaType = mapMediaType;
 	}
 
 	void initTableColumns(DataGrid<AttachmentDto> dataGrid) {
@@ -72,18 +75,18 @@ public class DocsDataGrid {
 			}
 		};
 		dataGrid.addColumn(titleColumn, messages.table_title());
-		dataGrid.setColumnWidth(titleColumn, 40, Style.Unit.PCT);
+		dataGrid.setColumnWidth(titleColumn, 50, Style.Unit.PCT);
 
 		// Media type
 		Column<AttachmentDto, String> contentTypeColumn = new Column<AttachmentDto, String>(
 				new TextCell()) {
 			@Override
 			public String getValue(AttachmentDto object) {
-				return object.getMediaType();
+				return  mapMediaType.mapMediaType2FileFormat(object.getMediaType());
 			}
 		};
 		dataGrid.addColumn(contentTypeColumn, messages.table_contentType());
-		dataGrid.setColumnWidth(contentTypeColumn, 30, Style.Unit.PCT);
+		dataGrid.setColumnWidth(contentTypeColumn, 10, Style.Unit.PCT);
 
 		// Version
 		Column<AttachmentDto, String> versionColumn = new Column<AttachmentDto, String>(
@@ -117,12 +120,13 @@ public class DocsDataGrid {
 
 				String url = baseUrl + 	ATTACHMENT_DOWNLOAD + "?link=" +
 							urlCoding.encode() + "&mediatype=" +
-							attachmentDto.getMediaType();
+							attachmentDto.getMediaType() + "&filename=" +
+							attachmentDto.getTitle();
 
 				logger.info("Base URL: " + baseUrl);
 				logger.info("URL: " + url);
 
-				Window.open( url, "_blank", "status=0,toolbar=0,menubar=0,location=0");
+				Window.open( url, "_parent", "status=0,toolbar=0,menubar=0,location=0");
 			}
 		});
 	}
