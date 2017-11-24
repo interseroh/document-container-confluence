@@ -31,4 +31,9 @@ public class MockServicePreparator implements ServicePreparator {
     public void prepare(String baseUrl) {
         logger.info("MockServicePreparator prepare...");
     }
+
+    @Override
+    public String getBaseUrl() {
+        return "http://localhost:9014/demogwt";
+    }
 }

@@ -1,4 +1,4 @@
-package com.lofidewanto.demo.server.domain.attachments;
+package com.lofidewanto.demo.server.domain;
 
 import java.util.HashMap;
 import java.util.Map;

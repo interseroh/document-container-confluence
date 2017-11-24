@@ -1,4 +1,4 @@
-package com.lofidewanto.demo.server.domain.attachments;
+package com.lofidewanto.demo.server.domain;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -19,10 +19,10 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
         "size",
         "_links"
 })
-public class AllAttachments {
+public class Labels {
 
     @JsonProperty("results")
-    private List<Result> results = new ArrayList<Result>();
+    private List<Object> results = new ArrayList<Object>();
     @JsonProperty("start")
     private int start;
     @JsonProperty("limit")
@@ -30,7 +30,7 @@ public class AllAttachments {
     @JsonProperty("size")
     private int size;
     @JsonProperty("_links")
-    private Links__ links;
+    private Links links;
     @JsonIgnore
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
@@ -38,7 +38,7 @@ public class AllAttachments {
      * No args constructor for use in serialization
      *
      */
-    public AllAttachments() {
+    public Labels() {
     }
 
     /**
@@ -49,7 +49,7 @@ public class AllAttachments {
      * @param links
      * @param size
      */
-    public AllAttachments(List<Result> results, int start, int limit, int size, Links__ links) {
+    public Labels(List<Object> results, int start, int limit, int size, Links links) {
         super();
         this.results = results;
         this.start = start;
@@ -59,16 +59,16 @@ public class AllAttachments {
     }
 
     @JsonProperty("results")
-    public List<Result> getResults() {
+    public List<Object> getResults() {
         return results;
     }
 
     @JsonProperty("results")
-    public void setResults(List<Result> results) {
+    public void setResults(List<Object> results) {
         this.results = results;
     }
 
-    public AllAttachments withResults(List<Result> results) {
+    public Labels withResults(List<Object> results) {
         this.results = results;
         return this;
     }
@@ -83,7 +83,7 @@ public class AllAttachments {
         this.start = start;
     }
 
-    public AllAttachments withStart(int start) {
+    public Labels withStart(int start) {
         this.start = start;
         return this;
     }
@@ -98,7 +98,7 @@ public class AllAttachments {
         this.limit = limit;
     }
 
-    public AllAttachments withLimit(int limit) {
+    public Labels withLimit(int limit) {
         this.limit = limit;
         return this;
     }
@@ -113,22 +113,22 @@ public class AllAttachments {
         this.size = size;
     }
 
-    public AllAttachments withSize(int size) {
+    public Labels withSize(int size) {
         this.size = size;
         return this;
     }
 
     @JsonProperty("_links")
-    public Links__ getLinks() {
+    public Links getLinks() {
         return links;
     }
 
     @JsonProperty("_links")
-    public void setLinks(Links__ links) {
+    public void setLinks(Links links) {
         this.links = links;
     }
 
-    public AllAttachments withLinks(Links__ links) {
+    public Labels withLinks(Links links) {
         this.links = links;
         return this;
     }
@@ -143,7 +143,7 @@ public class AllAttachments {
         this.additionalProperties.put(name, value);
     }
 
-    public AllAttachments withAdditionalProperty(String name, Object value) {
+    public Labels withAdditionalProperty(String name, Object value) {
         this.additionalProperties.put(name, value);
         return this;
     }

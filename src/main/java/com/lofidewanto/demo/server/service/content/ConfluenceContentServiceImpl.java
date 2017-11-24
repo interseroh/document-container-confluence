@@ -23,7 +23,6 @@ import java.io.InputStream;
 import java.net.URI;
 import java.util.List;
 
-import com.lofidewanto.demo.server.domain.attachments.AllAttachments;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,6 +39,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import com.lofidewanto.demo.server.domain.Attachment;
 import com.lofidewanto.demo.server.domain.AttachmentImpl;
+import com.lofidewanto.demo.server.domain.AllAttachments;
 import com.lofidewanto.demo.shared.DemoGwtServiceEndpoint;
 
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
@@ -55,6 +55,9 @@ public class ConfluenceContentServiceImpl implements ConfluenceContentService {
 	@Autowired
 	private RestTemplate restTemplate;
 
+	@Autowired
+	private MapAllAttachments mapAllAttachments;
+
 	@Value("${confluence.url}")
 	private String confluenceUrl;
 
@@ -64,12 +67,9 @@ public class ConfluenceContentServiceImpl implements ConfluenceContentService {
 	@Override
 	public List<Attachment> getAllAttachments() {
 		// Connect to Confluence
-		// TODO Handle error
-
 		String confluenceAttachmentList = DemoGwtServiceEndpoint.CONFLUENCE_ATTACHMENT_LIST;
 		String url = confluenceUrl.concat(confluenceAttachmentList);
 		URI uri = replacePageId(url);
-		MapAllAttachments mapAllAttachments = new MapAllAttachments();
 
 		HttpHeaders headers = new HttpHeaders();
 		headers.set("Accept", MediaType.APPLICATION_JSON_VALUE);
@@ -78,10 +78,8 @@ public class ConfluenceContentServiceImpl implements ConfluenceContentService {
 
 		logger.info("URI: " + uri.toString());
 
-		//ResponseEntity<Attachment[]>attachmentsWithResponseEntity  =  restTemplate.exchange(uri,
-		//		HttpMethod.GET, entity, Attachment[].class);
-
-		ResponseEntity<AllAttachments> allAttachmentWithResponseEntiry = restTemplate.exchange(uri, HttpMethod.GET, entity, AllAttachments.class);
+		ResponseEntity<AllAttachments> allAttachmentWithResponseEntiry =
+				restTemplate.exchange(uri, HttpMethod.GET, entity, AllAttachments.class);
 
 		AllAttachments allAttachments = allAttachmentWithResponseEntiry.getBody();
 

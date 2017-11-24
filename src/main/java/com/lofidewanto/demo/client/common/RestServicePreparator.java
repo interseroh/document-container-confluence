@@ -38,6 +38,8 @@ public class RestServicePreparator implements ServicePreparator {
 	@Inject
 	private RestConfluenceContentClient restConfluenceContentClient;
 
+	private String baseUrl;
+
 
 	public RestServicePreparator() {
     }
@@ -46,8 +48,15 @@ public class RestServicePreparator implements ServicePreparator {
     public void prepare(String baseUrl) {
         logger.info("Prepare for the resources for the services...");
 
+        this.baseUrl = baseUrl;
+
         initServices(baseUrl);
     }
+
+	@Override
+	public String getBaseUrl() {
+		return baseUrl;
+	}
 
 	private void initServices(String baseUrl) {
 		Defaults.setDateFormat(null);

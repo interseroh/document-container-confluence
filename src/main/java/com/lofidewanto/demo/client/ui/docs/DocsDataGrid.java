@@ -30,11 +30,11 @@ import org.gwtbootstrap3.client.ui.gwt.DataGrid;
 
 import com.google.gwt.cell.client.FieldUpdater;
 import com.google.gwt.cell.client.TextCell;
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.user.cellview.client.Column;
 import com.google.gwt.user.client.Window;
 import com.lofidewanto.demo.client.Messages;
+import com.lofidewanto.demo.client.common.ServicePreparator;
 import com.lofidewanto.demo.shared.AttachmentDto;
 import com.lofidewanto.demo.shared.UrlCoding;
 
@@ -47,12 +47,12 @@ public class DocsDataGrid {
 
 	private final Messages messages;
 
-	private final BaseUrlDocDownloadService baseUrlDocDownloadService;
+	private final ServicePreparator servicePreparator;
 
 	@Inject
-	public DocsDataGrid(Messages messages, BaseUrlDocDownloadService baseUrlDocDownloadService) {
+	public DocsDataGrid(Messages messages, ServicePreparator servicePreparator) {
 		this.messages = messages;
-		this.baseUrlDocDownloadService = baseUrlDocDownloadService;
+		this.servicePreparator = servicePreparator;
 	}
 
 	void initTableColumns(DataGrid<AttachmentDto> dataGrid) {
@@ -64,7 +64,11 @@ public class DocsDataGrid {
 				new TextCell()) {
 			@Override
 			public String getValue(AttachmentDto object) {
-				return object.getTitle();
+				if (object.getComment() != null && !object.getComment().equals("")) {
+					return object.getComment();
+				} else {
+					return object.getTitle();
+				}
 			}
 		};
 		dataGrid.addColumn(titleColumn, messages.table_title());
@@ -79,18 +83,18 @@ public class DocsDataGrid {
 			}
 		};
 		dataGrid.addColumn(contentTypeColumn, messages.table_contentType());
-		dataGrid.setColumnWidth(contentTypeColumn, 40, Style.Unit.PCT);
+		dataGrid.setColumnWidth(contentTypeColumn, 30, Style.Unit.PCT);
 
-		// Size
-		Column<AttachmentDto, String> fileSizeColumn = new Column<AttachmentDto, String>(
+		// Version
+		Column<AttachmentDto, String> versionColumn = new Column<AttachmentDto, String>(
 				new TextCell()) {
 			@Override
 			public String getValue(AttachmentDto object) {
-				return object.getFileSize();
+				return object.getVersion();
 			}
 		};
-		dataGrid.addColumn(fileSizeColumn, messages.table_fileSize());
-		dataGrid.setColumnWidth(fileSizeColumn, 40, Style.Unit.PCT);
+		dataGrid.addColumn(versionColumn, messages.table_version());
+		dataGrid.setColumnWidth(versionColumn, 10, Style.Unit.PCT);
 
 		// Download link Button
 		Column<AttachmentDto, String> downloadColumn = new Column<AttachmentDto, String>(
@@ -101,7 +105,7 @@ public class DocsDataGrid {
 			}
 		};
 		dataGrid.addColumn(downloadColumn, messages.table_download());
-		dataGrid.setColumnWidth(downloadColumn, 40, Style.Unit.PCT);
+		dataGrid.setColumnWidth(downloadColumn, 20, Style.Unit.PCT);
 
 		downloadColumn.setFieldUpdater(new FieldUpdater<AttachmentDto, String>() {
 			@Override
@@ -109,7 +113,7 @@ public class DocsDataGrid {
 				// Download clicked
 				UrlCoding urlCoding = new UrlCoding(attachmentDto.getDownloadLink());
 
-				String baseUrl = baseUrlDocDownloadService.getBaseUrl();
+				String baseUrl = servicePreparator.getBaseUrl();
 
 				String url = baseUrl + 	ATTACHMENT_DOWNLOAD + "?link=" +
 							urlCoding.encode() + "&mediatype=" +

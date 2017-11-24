@@ -33,15 +33,7 @@ public class ConfluenceContentServiceImplIT {
 	}
 
 	@Test
-	public void testCreateAddressFromPerson() {
-		// Prepare
-
-	}
-
-	@Test
-	public void testFindAllPersons() {
-		// Prepare
-
+	public void test() {
 	}
 
 }

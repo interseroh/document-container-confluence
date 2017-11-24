@@ -32,4 +32,10 @@ public interface DemoGwtServiceEndpoint {
 
 	String CONFLUENCE_ATTACHMENT_LIST = "/rest/api/content/{pageId}/child/attachment";
 
+	String INTEGRATION_AREA_ID = "entsorgerportal_integration_area";
+
+	String ATTRIBUTE_BASE_URL_INTEGRATION = "data-baseurl_integration";
+
+	String APP_VIEW_AREA_ID = "applicationViewArea";
+
 }

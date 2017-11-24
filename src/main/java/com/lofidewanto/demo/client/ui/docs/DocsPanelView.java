@@ -118,19 +118,7 @@ public class DocsPanelView extends Composite implements Startable {
 
 	@UiHandler("refreshButton")
 	public void onButtonClick(final ClickEvent event) {
-		// Event handling in GWT UiBinder
-		logger.info("Click Detected by GWT UiBinder");
-
-		// Both buttons disable
-		refreshButton.setEnabled(false);
-
-		boolean result = runTimerRefreshButton();
-
-		if (result == false) {
-
-		}
-
-		logger.info("Result runTimerRefreshButton: " + result);
+		getDocuments();
 	}
 
 	boolean runTimerRefreshButton() {
