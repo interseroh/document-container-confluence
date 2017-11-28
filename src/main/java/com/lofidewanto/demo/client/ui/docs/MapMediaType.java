@@ -22,6 +22,7 @@ import javax.inject.Singleton;
 
 @Singleton
 public class MapMediaType {
+
     public String mapMediaType2FileFormat(String mediaType) {
 
         String result = "";
