@@ -500,8 +500,8 @@
 	<distributionManagement>
 		<repository>
 			<id>nexus</id>
-			<name>snapshots</name>
-			<url>http://nexus-ep/repository/snapshots</url>
+			<name>releases</name>
+			<url>http://nexus-ep/repository/releases</url>
 		</repository>
 	</distributionManagement>
 </project>
