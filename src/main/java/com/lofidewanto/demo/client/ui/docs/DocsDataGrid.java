@@ -101,7 +101,7 @@ public class DocsDataGrid {
 
 		// Download link Button
 		Column<AttachmentDto, String> downloadColumn = new Column<AttachmentDto, String>(
-				new ButtonCell(ButtonType.INFO, ButtonSize.SMALL)) {
+				new ButtonCell(ButtonType.PRIMARY, ButtonSize.SMALL)) {
 			@Override
 			public String getValue(AttachmentDto object) {
 				return messages.table_downloadButton();
